@@ -1,0 +1,9 @@
+After enabling GitHub Pages, your share link will be:
+
+https://<github-username>.github.io/<repo-name>/
+
+Example:
+https://Oboe831.github.io/dragonball-dnd-sheet/
+
+Top-level launcher file:
+OPEN_CHARACTER_SHEET.html

@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dragon Ball DnD Character Sheet</title>
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div class="brand">
+        <p class="eyebrow">Dragon Ball DnD</p>
+        <h1>Digital Character Sheet</h1>
+      </div>
+      <div class="identity-grid">
+        <label>
+          Character
+          <input type="text" data-bind="meta.name">
+        </label>
+        <label>
+          Race
+          <input type="text" list="race-options" data-bind="meta.race">
+          <datalist id="race-options"></datalist>
+        </label>
+        <label>
+          Level
+          <input type="number" min="1" max="99" data-type="number" data-bind="meta.level">
+        </label>
+        <label>
+          Alignment
+          <input type="text" data-bind="meta.alignment">
+        </label>
+      </div>
+      <div class="topbar-actions">
+        <button id="export-btn" class="btn">Save to Device</button>
+        <label class="btn btn-alt" for="import-input">Load from Device</label>
+        <input id="import-input" type="file" accept=".json,application/json" hidden>
+        <button id="copy-link-btn" class="btn btn-alt">Copy Sheet Link</button>
+        <button id="reset-btn" class="btn btn-danger">Reset</button>
+      </div>
+    </header>
+
+    <div class="sheet-layout">
+      <aside class="sidebar">
+        <nav class="tab-nav" aria-label="Character sections">
+          <button class="tab-btn active" data-tab="overview">Overview</button>
+          <button class="tab-btn" data-tab="combat">Combat</button>
+          <button class="tab-btn" data-tab="techniques">Techniques</button>
+          <button class="tab-btn" data-tab="transformations">Transformations</button>
+          <button class="tab-btn" data-tab="skills">Skills</button>
+          <button class="tab-btn" data-tab="inventory">Inventory</button>
+          <button class="tab-btn" data-tab="notes">Notes</button>
+        </nav>
+      </aside>
+
+      <main class="main-content">
+        <section class="core-panel">
+          <div class="stat-cards">
+            <article class="card stat">
+              <h2>Power Level</h2>
+              <p id="power-level-card" class="stat-value">0</p>
+              <small id="active-form-card" class="muted">Base Form</small>
+            </article>
+            <article class="card stat">
+              <h2>Defense</h2>
+              <p id="defense-card" class="stat-value">10</p>
+              <small class="muted">AC Equivalent</small>
+            </article>
+            <article class="card stat">
+              <h2>Attack Bonus</h2>
+              <p id="attack-card" class="stat-value">+0</p>
+              <small class="muted">Main Attack</small>
+            </article>
+            <article class="card stat">
+              <h2>Tech Save DC</h2>
+              <p id="save-dc-card" class="stat-value">10</p>
+              <small class="muted">Ki Techniques</small>
+            </article>
+            <article class="card stat">
+              <h2>Speed</h2>
+              <p id="speed-card" class="stat-value">30</p>
+              <small class="muted">Feet / Turn</small>
+            </article>
+            <article class="card stat">
+              <h2>Initiative</h2>
+              <p id="initiative-card" class="stat-value">+0</p>
+              <small class="muted">Combat Start</small>
+            </article>
+          </div>
+
+          <div class="resource-grid">
+            <article class="card">
+              <div class="resource-head">
+                <h2>Hit Points</h2>
+                <p><span id="hp-current-label">0</span>/<span id="hp-max-label">0</span></p>
+              </div>
+              <div class="meter">
+                <div id="hp-meter-fill" class="meter-fill hp"></div>
+              </div>
+              <div class="resource-inputs">
+                <label>
+                  Current
+                  <input type="number" min="0" data-type="number" data-bind="resources.currentHp">
+                </label>
+                <label>
+                  Max
+                  <input type="number" min="1" data-type="number" data-bind="resources.maxHp">
+                </label>
+              </div>
+            </article>
+
+            <article class="card">
+              <div class="resource-head">
+                <h2>Ki Pool</h2>
+                <p><span id="ki-current-label">0</span>/<span id="ki-max-label">0</span></p>
+              </div>
+              <div class="meter">
+                <div id="ki-meter-fill" class="meter-fill ki"></div>
+              </div>
+              <div class="resource-inputs">
+                <label>
+                  Current
+                  <input type="number" min="0" data-type="number" data-bind="resources.currentKi">
+                </label>
+                <label>
+                  Base Ki
+                  <input type="number" min="0" data-type="number" data-bind="resources.baseKi">
+                </label>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <section id="tab-overview" class="tab-panel active">
+          <h2>Overview</h2>
+          <p class="muted">Auto-saves in browser. Use Save to Device and Load from Device for cross-device character files.</p>
+          <div class="two-col">
+            <article class="card">
+              <h3>Ability Scores</h3>
+              <div class="ability-grid">
+                <label>STR<input type="number" min="1" data-type="number" data-bind="abilities.str"><span id="mod-str" class="mod-pill">+0</span></label>
+                <label>DEX<input type="number" min="1" data-type="number" data-bind="abilities.dex"><span id="mod-dex" class="mod-pill">+0</span></label>
+                <label>CON<input type="number" min="1" data-type="number" data-bind="abilities.con"><span id="mod-con" class="mod-pill">+0</span></label>
+                <label>INT<input type="number" min="1" data-type="number" data-bind="abilities.int"><span id="mod-int" class="mod-pill">+0</span></label>
+                <label>WIS<input type="number" min="1" data-type="number" data-bind="abilities.wis"><span id="mod-wis" class="mod-pill">+0</span></label>
+                <label>CHA<input type="number" min="1" data-type="number" data-bind="abilities.cha"><span id="mod-cha" class="mod-pill">+0</span></label>
+                <label>SPI<input type="number" min="1" data-type="number" data-bind="abilities.spi"><span id="mod-spi" class="mod-pill">+0</span></label>
+              </div>
+            </article>
+
+            <article class="card">
+              <h3>Progression</h3>
+              <div class="form-grid">
+                <label>
+                  Base Power Level
+                  <input type="number" min="0" data-type="number" data-bind="progression.basePowerLevel">
+                </label>
+                <label>
+                  Flat PL Bonus
+                  <input type="number" data-type="number" data-bind="progression.powerBonusFlat">
+                </label>
+                <label>
+                  Proficiency Bonus
+                  <input id="prof-bonus-display" type="text" readonly>
+                </label>
+                <label>
+                  Ki Recovery (Action)
+                  <input id="ki-recovery-display" type="text" readonly>
+                </label>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <section id="tab-combat" class="tab-panel">
+          <h2>Combat</h2>
+          <div class="two-col">
+            <article class="card">
+              <h3>Combat Configuration</h3>
+              <div class="form-grid">
+                <label>
+                  Attack Stat
+                  <select data-bind="combat.attackStat">
+                    <option value="str">Strength</option>
+                    <option value="dex">Dexterity</option>
+                    <option value="spi">Spirit</option>
+                  </select>
+                </label>
+                <label>
+                  Base Speed
+                  <input type="number" min="0" data-type="number" data-bind="combat.baseSpeed">
+                </label>
+                <label>
+                  Defense Bonus
+                  <input type="number" data-type="number" data-bind="combat.defenseBonus">
+                </label>
+                <label>
+                  Initiative Bonus
+                  <input type="number" data-type="number" data-bind="combat.initiativeBonus">
+                </label>
+                <label>
+                  Attack Bonus (Flat)
+                  <input type="number" data-type="number" data-bind="combat.attackBonusFlat">
+                </label>
+                <label>
+                  Damage Bonus (Flat)
+                  <input type="number" data-type="number" data-bind="combat.damageBonusFlat">
+                </label>
+                <label>
+                  Tech Save Bonus
+                  <input type="number" data-type="number" data-bind="combat.techSaveBonus">
+                </label>
+              </div>
+            </article>
+
+            <article class="card">
+              <h3>Quick Actions</h3>
+              <div class="quick-actions">
+                <button id="ki-recover-btn" class="btn">Recover Ki</button>
+                <button id="ki-spend-btn" class="btn btn-alt">Spend 1 Ki</button>
+                <button id="hp-heal-btn" class="btn">Heal 10 HP</button>
+                <button id="hp-damage-btn" class="btn btn-alt">Take 10 Damage</button>
+                <button id="roll-initiative-btn" class="btn">Roll Initiative</button>
+              </div>
+              <div id="roll-log" class="roll-log" aria-live="polite"></div>
+            </article>
+          </div>
+        </section>
+
+        <section id="tab-techniques" class="tab-panel">
+          <h2>Techniques</h2>
+          <div id="techniques-list" class="list-grid"></div>
+        </section>
+
+        <section id="tab-transformations" class="tab-panel">
+          <h2>Transformations</h2>
+          <div class="two-col">
+            <article class="card">
+              <h3>Active Form</h3>
+              <div class="form-grid">
+                <label>
+                  Select Form
+                  <select id="transformation-select"></select>
+                </label>
+              </div>
+              <button id="apply-form-btn" class="btn">Apply Transformation</button>
+            </article>
+
+            <article class="card">
+              <h3>Form Details</h3>
+              <ul id="form-details" class="detail-list"></ul>
+            </article>
+          </div>
+        </section>
+
+        <section id="tab-skills" class="tab-panel">
+          <h2>Skills</h2>
+          <article class="card">
+            <label>
+              Skill Notes
+              <textarea rows="12" data-bind="skills.notes"></textarea>
+            </label>
+          </article>
+        </section>
+
+        <section id="tab-inventory" class="tab-panel">
+          <h2>Inventory</h2>
+          <article class="card">
+            <label>
+              Items and Capsules
+              <textarea rows="12" data-bind="inventory.items"></textarea>
+            </label>
+          </article>
+        </section>
+
+        <section id="tab-notes" class="tab-panel">
+          <h2>Notes</h2>
+          <article class="card">
+            <label>
+              Character Notes
+              <textarea rows="12" data-bind="notes.general"></textarea>
+            </label>
+          </article>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <script type="module" src="js/ui.js"></script>
+</body>
+</html>
