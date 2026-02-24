@@ -1,5 +1,17 @@
 import { computeDerived, rollDie, rollDiceExpression } from "./calculations.js";
-import { exportState, getState, loadState, resetState, setState, subscribe } from "./state.js";
+import {
+  createCharacterSlot,
+  deleteCharacterSlot,
+  exportState,
+  getState,
+  listCharacterSlots,
+  loadFromSlot,
+  loadState,
+  resetState,
+  saveCurrentToSlot,
+  setState,
+  subscribe,
+} from "./state.js";
 
 const fallbackRaces = {
   races: [
@@ -420,9 +432,19 @@ const sectionHelp = {
 };
 let activeTabId = "overview";
 let helpPanelVisible = false;
+let activeSlotId = "";
 
 function byId(id) {
   return document.getElementById(id);
+}
+
+function escapeHtml(value) {
+  return String(value)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#39;");
 }
 
 function readNumber(value, fallback = 0) {
@@ -465,7 +487,110 @@ async function loadJson(path, fallback) {
 
 function initializeDataLists() {
   const datalist = byId("race-options");
-  datalist.innerHTML = gameData.races.map((race) => `<option value="${race.name}"></option>`).join("");
+  datalist.replaceChildren();
+  for (const race of gameData.races) {
+    const option = document.createElement("option");
+    option.value = race.name;
+    datalist.appendChild(option);
+  }
+}
+
+function formatSlotDate(updatedAt) {
+  if (!updatedAt) {
+    return "";
+  }
+  return new Date(updatedAt).toLocaleString("en-US", {
+    month: "short",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+}
+
+function renderSlotPicker() {
+  const select = byId("slot-select");
+  if (!select) {
+    return;
+  }
+  const slots = listCharacterSlots();
+  if (!slots.length) {
+    activeSlotId = "";
+    select.innerHTML = `<option value="">No slots</option>`;
+    return;
+  }
+
+  if (!activeSlotId || !slots.some((slot) => slot.id === activeSlotId)) {
+    activeSlotId = slots[0].id;
+  }
+
+  select.replaceChildren();
+  for (const slot of slots) {
+    const option = document.createElement("option");
+    option.value = slot.id;
+    option.textContent = `${slot.name} - ${formatSlotDate(slot.updatedAt)}`;
+    select.appendChild(option);
+  }
+  select.value = activeSlotId;
+}
+
+function setupSlotActions() {
+  const select = byId("slot-select");
+  select.addEventListener("change", () => {
+    activeSlotId = select.value;
+  });
+
+  byId("slot-new-btn").addEventListener("click", () => {
+    const suggested = getState().meta?.name || "New Character";
+    const name = window.prompt("Slot name:", suggested);
+    if (name === null) {
+      return;
+    }
+    activeSlotId = createCharacterSlot(name);
+    renderSlotPicker();
+    pushRollLog(`Created slot "${name || suggested}".`);
+  });
+
+  byId("slot-save-btn").addEventListener("click", () => {
+    const fallbackName = getState().meta?.name || "Character";
+    if (!activeSlotId) {
+      activeSlotId = createCharacterSlot(fallbackName);
+    }
+    saveCurrentToSlot(activeSlotId, fallbackName);
+    renderSlotPicker();
+    pushRollLog(`Saved current character to slot.`);
+  });
+
+  byId("slot-load-btn").addEventListener("click", () => {
+    if (!activeSlotId) {
+      pushRollLog("No slot selected to load.");
+      return;
+    }
+    const loaded = loadFromSlot(activeSlotId);
+    if (loaded) {
+      pushRollLog("Loaded selected slot.");
+      return;
+    }
+    pushRollLog("Could not load selected slot.");
+  });
+
+  byId("slot-delete-btn").addEventListener("click", () => {
+    if (!activeSlotId) {
+      pushRollLog("No slot selected to delete.");
+      return;
+    }
+    const confirmed = window.confirm("Delete selected character slot?");
+    if (!confirmed) {
+      return;
+    }
+    const deleted = deleteCharacterSlot(activeSlotId);
+    if (deleted) {
+      activeSlotId = "";
+      renderSlotPicker();
+      pushRollLog("Deleted selected slot.");
+      return;
+    }
+    pushRollLog("Could not delete selected slot.");
+  });
 }
 
 function showHelpPanel() {
@@ -636,11 +761,14 @@ function renderTransformationSection(derived) {
     return;
   }
 
-  const optionsHtml = gameData.transformations
-    .map((form) => `<option value="${form.id}">${form.name}</option>`)
-    .join("");
-  if (select.innerHTML !== optionsHtml) {
-    select.innerHTML = optionsHtml;
+  if (select.options.length !== gameData.transformations.length) {
+    select.replaceChildren();
+    for (const form of gameData.transformations) {
+      const option = document.createElement("option");
+      option.value = form.id;
+      option.textContent = form.name;
+      select.appendChild(option);
+    }
   }
   select.value = derived.form.id;
 
@@ -650,19 +778,19 @@ function renderTransformationSection(derived) {
     .join(", ");
 
   byId("form-details").innerHTML = [
-    `<li><strong>Power Multiplier:</strong> x${derived.form.multiplier}</li>`,
-    `<li><strong>Ki Modifier:</strong> x${derived.form.kiModifier}</li>`,
-    `<li><strong>Attack Bonus:</strong> ${signed(readNumber(derived.form.attackBonus))}</li>`,
-    `<li><strong>Damage Bonus:</strong> ${signed(readNumber(derived.form.damageBonus))}</li>`,
-    `<li><strong>Defense Bonus:</strong> ${signed(readNumber(derived.form.defenseBonus))}</li>`,
-    `<li><strong>Speed Bonus:</strong> ${signed(readNumber(derived.form.speedBonus))}</li>`,
-    `<li><strong>Ability Bonuses:</strong> ${abilityBonuses || "None"}</li>`,
-    `<li><strong>Tier Requirement:</strong> ${derived.form.tierRequirement || "None"}</li>`,
-    `<li><strong>Race Requirement:</strong> ${derived.form.raceRequirement || "None"}</li>`,
+    `<li><strong>Power Multiplier:</strong> x${escapeHtml(derived.form.multiplier)}</li>`,
+    `<li><strong>Ki Modifier:</strong> x${escapeHtml(derived.form.kiModifier)}</li>`,
+    `<li><strong>Attack Bonus:</strong> ${escapeHtml(signed(readNumber(derived.form.attackBonus)))}</li>`,
+    `<li><strong>Damage Bonus:</strong> ${escapeHtml(signed(readNumber(derived.form.damageBonus)))}</li>`,
+    `<li><strong>Defense Bonus:</strong> ${escapeHtml(signed(readNumber(derived.form.defenseBonus)))}</li>`,
+    `<li><strong>Speed Bonus:</strong> ${escapeHtml(signed(readNumber(derived.form.speedBonus)))}</li>`,
+    `<li><strong>Ability Bonuses:</strong> ${escapeHtml(abilityBonuses || "None")}</li>`,
+    `<li><strong>Tier Requirement:</strong> ${escapeHtml(derived.form.tierRequirement || "None")}</li>`,
+    `<li><strong>Race Requirement:</strong> ${escapeHtml(derived.form.raceRequirement || "None")}</li>`,
     `<li><strong>Ki Upkeep:</strong> ${readNumber(derived.form.kiUpkeep, 0)}</li>`,
     `<li><strong>HP Upkeep:</strong> ${readNumber(derived.form.hpUpkeep, 0)}</li>`,
-    `<li><strong>Source:</strong> ${derived.form.source || "Custom"}</li>`,
-    `<li><strong>Notes:</strong> ${derived.form.notes || "None"}</li>`,
+    `<li><strong>Source:</strong> ${escapeHtml(derived.form.source || "Custom")}</li>`,
+    `<li><strong>Notes:</strong> ${escapeHtml(derived.form.notes || "None")}</li>`,
   ].join("");
 
   if (activeTabId === "transformations") {
@@ -681,7 +809,9 @@ function pushRollLog(text) {
     rollLog.pop();
   }
 
-  byId("roll-log").innerHTML = rollLog.map((entry) => `<div class="roll-entry">${entry}</div>`).join("");
+  byId("roll-log").innerHTML = rollLog
+    .map((entry) => `<div class="roll-entry">${escapeHtml(entry)}</div>`)
+    .join("");
 }
 
 function renderTechniques(derived) {
@@ -692,15 +822,15 @@ function renderTechniques(derived) {
       const canUse = derived.currentKi >= readNumber(technique.kiCost);
       return `
         <article class="card technique-card">
-          <h3>${technique.name}</h3>
-          <p class="muted">${technique.notes || ""}</p>
+          <h3>${escapeHtml(technique.name)}</h3>
+          <p class="muted">${escapeHtml(technique.notes || "")}</p>
           <div class="technique-meta">
             <p><strong>Ki Cost:</strong> ${technique.kiCost}</p>
             <p><strong>TP Cost:</strong> ${technique.tpCost || 0}</p>
-            <p><strong>Range:</strong> ${technique.range || "-"}</p>
-            <p><strong>To Hit:</strong> ${signed(baseHit)}</p>
-            <p><strong>Damage:</strong> ${technique.damageDice} ${signed(damageMod)}</p>
-            <p><strong>Source:</strong> ${technique.source || "Custom"}</p>
+            <p><strong>Range:</strong> ${escapeHtml(technique.range || "-")}</p>
+            <p><strong>To Hit:</strong> ${escapeHtml(signed(baseHit))}</p>
+            <p><strong>Damage:</strong> ${escapeHtml(technique.damageDice)} ${escapeHtml(signed(damageMod))}</p>
+            <p><strong>Source:</strong> ${escapeHtml(technique.source || "Custom")}</p>
           </div>
           <div class="technique-actions">
             <button class="btn btn-alt technique-info" data-tech="${technique.id}">Info</button>
@@ -744,6 +874,7 @@ function render() {
 
   syncInputsFromState(state);
   clampResourcesIfNeeded(derived, state);
+  renderSlotPicker();
 
   setText("power-level-card", derived.transformedPowerLevelLabel);
   setText("active-form-card", derived.form.name);
@@ -970,6 +1101,7 @@ async function init() {
 
   setupTabs();
   setupBoundInputs();
+  setupSlotActions();
   setupTechniquesEvents();
   setupQuickActions();
   setupFileActions();
@@ -978,6 +1110,12 @@ async function init() {
   subscribe(render);
   loadState();
   updateHelpForActiveTab();
+  const slots = listCharacterSlots();
+  if (!slots.length) {
+    activeSlotId = createCharacterSlot(getState().meta?.name || "Starter Character");
+  } else {
+    activeSlotId = slots[0].id;
+  }
 
   const formExists = gameData.transformations.some((form) => form.id === getState().activeTransformationId);
   if (!formExists) {

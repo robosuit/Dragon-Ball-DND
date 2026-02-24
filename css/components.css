@@ -167,6 +167,15 @@ h3 {
   gap: 8px;
   flex-wrap: wrap;
   justify-content: flex-end;
+  align-items: end;
+}
+
+.slot-picker {
+  min-width: 170px;
+}
+
+.slot-picker select {
+  min-width: 170px;
 }
 
 .tab-btn {

@@ -4,8 +4,9 @@ This project is a plain HTML/CSS/JS character sheet with a D&D Beyond style layo
 
 ## Player Launch Links
 
-- Live Sheet: `https://robosuit.github.io/Dragon-Ball-DND/`
-- Start Page (best for non-technical players): `https://robosuit.github.io/Dragon-Ball-DND/START_HERE.html`
+- Live Sheet (GitHub Pages): `https://robosuit.github.io/Dragon-Ball-DND/`
+- Start Page (GitHub Pages): `https://robosuit.github.io/Dragon-Ball-DND/START_HERE.html`
+- Fallback Web App Link (works without Pages config): `https://raw.githack.com/robosuit/Dragon-Ball-DND/main/START_HERE.html`
 - Top-level launcher file in repo: `OPEN_CHARACTER_SHEET.html`
 
 ## Features
@@ -16,6 +17,7 @@ This project is a plain HTML/CSS/JS character sheet with a D&D Beyond style layo
 - Ki and HP tracking with quick actions
 - Technique cards with roll and spend Ki buttons
 - Save to Device / Load from Device JSON character files
+- Built-in character slots (`New Slot`, `Save Slot`, `Load Slot`, `Delete Slot`)
 - Data-driven races, transformations, and techniques
 - DBU/DragonBallRedux baseline data mapped into `data/*.json`
 
@@ -64,3 +66,4 @@ When porting to Roll20 sheet workers, reuse formulas from `js/calculations.js`.
 - `START_HERE.html` - simple player-facing launch page
 - `OPEN_CHARACTER_SHEET.html` - top-level launcher that redirects to `START_HERE.html`
 - `WEBSITE_LINK_TEMPLATE.txt` - template for your final public GitHub Pages URL
+- `PLAYER_LINKS.txt` - copy/paste links for players

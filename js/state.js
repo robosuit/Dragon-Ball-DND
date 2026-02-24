@@ -1,4 +1,5 @@
 const STORAGE_KEY = "dragonball_dnd_sheet_v1";
+const SLOT_STORAGE_KEY = "dragonball_dnd_sheet_slots_v1";
 
 function createDefaultState() {
   return {
@@ -137,4 +138,97 @@ export function resetState() {
 
 export function exportState() {
   return clone(state);
+}
+
+function readSlotsStore() {
+  try {
+    const raw = localStorage.getItem(SLOT_STORAGE_KEY);
+    if (!raw) {
+      return { slots: [] };
+    }
+    const parsed = JSON.parse(raw);
+    if (!Array.isArray(parsed?.slots)) {
+      return { slots: [] };
+    }
+    return { slots: parsed.slots.filter((slot) => isObject(slot) && slot.id) };
+  } catch {
+    return { slots: [] };
+  }
+}
+
+function writeSlotsStore(store) {
+  localStorage.setItem(SLOT_STORAGE_KEY, JSON.stringify(store));
+}
+
+function sanitizeSlotName(name, fallback) {
+  const value = String(name || "").trim();
+  return value || fallback;
+}
+
+export function listCharacterSlots() {
+  const store = readSlotsStore();
+  return [...store.slots]
+    .sort((a, b) => (b.updatedAt || 0) - (a.updatedAt || 0))
+    .map((slot) => ({
+      id: slot.id,
+      name: sanitizeSlotName(slot.name, "Unnamed Slot"),
+      updatedAt: slot.updatedAt || 0,
+    }));
+}
+
+export function createCharacterSlot(name = "") {
+  const now = Date.now();
+  const slotId = `slot_${now}`;
+  const slotName = sanitizeSlotName(name, getState().meta?.name || "New Character");
+  const store = readSlotsStore();
+  store.slots.push({
+    id: slotId,
+    name: slotName,
+    updatedAt: now,
+    state: exportState(),
+  });
+  writeSlotsStore(store);
+  return slotId;
+}
+
+export function saveCurrentToSlot(slotId, name = "") {
+  const store = readSlotsStore();
+  const now = Date.now();
+  const index = store.slots.findIndex((slot) => slot.id === slotId);
+  const slotName = sanitizeSlotName(name, getState().meta?.name || "Character");
+
+  if (index >= 0) {
+    store.slots[index] = {
+      ...store.slots[index],
+      name: slotName,
+      updatedAt: now,
+      state: exportState(),
+    };
+  } else {
+    store.slots.push({
+      id: slotId || `slot_${now}`,
+      name: slotName,
+      updatedAt: now,
+      state: exportState(),
+    });
+  }
+  writeSlotsStore(store);
+}
+
+export function loadFromSlot(slotId) {
+  const store = readSlotsStore();
+  const slot = store.slots.find((item) => item.id === slotId);
+  if (!slot || !slot.state) {
+    return false;
+  }
+  setState(slot.state);
+  return true;
+}
+
+export function deleteCharacterSlot(slotId) {
+  const store = readSlotsStore();
+  const before = store.slots.length;
+  store.slots = store.slots.filter((slot) => slot.id !== slotId);
+  writeSlotsStore(store);
+  return store.slots.length < before;
 }

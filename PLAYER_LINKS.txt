@@ -6,8 +6,12 @@ https://robosuit.github.io/Dragon-Ball-DND/
 Start Here Page (recommended for new players):
 https://robosuit.github.io/Dragon-Ball-DND/START_HERE.html
 
+Fallback Web App Link (works even if GitHub Pages is not enabled yet):
+https://raw.githack.com/robosuit/Dragon-Ball-DND/main/START_HERE.html
+
 How to save character:
 1) Fill in sheet
-2) Click "Save to Device"
-3) Keep downloaded .json file
-4) Next session click "Load from Device"
+2) Click "New Slot" (first time only)
+3) Click "Save Slot"
+4) Next session click "Load Slot"
+5) Optional backup: click "Save to Device" to download .json
