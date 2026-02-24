@@ -236,3 +236,23 @@ h3 {
 .roll-entry:last-child {
   border-bottom: none;
 }
+
+.help-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.help-head h3 {
+  margin: 0;
+}
+
+.help-text {
+  margin: 8px 0;
+  color: var(--text-main);
+}
+
+.help-close {
+  padding: 4px 9px;
+}

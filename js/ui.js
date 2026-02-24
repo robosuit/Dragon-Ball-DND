@@ -381,6 +381,45 @@ const gameData = {
 };
 
 const rollLog = [];
+const sectionHelp = {
+  overview: {
+    title: "Overview Help",
+    text: "Set your identity, base stats, and power progression here. This tab drives all downstream combat calculations.",
+    source: "Sheet guide",
+  },
+  combat: {
+    title: "Combat Help",
+    text: "Configure your attack stat and combat modifiers, then use quick actions for HP/Ki and initiative during turns.",
+    source: "Sheet guide",
+  },
+  techniques: {
+    title: "Techniques Help",
+    text: "Roll or use techniques from this list. Use Technique spends Ki, and rolls use your current form and stat modifiers.",
+    source: "DragonBallRedux V2 / DBU mapped data",
+  },
+  transformations: {
+    title: "Transformations Help",
+    text: "Pick a form and apply it. The sheet immediately updates power level, combat stats, and form-based modifiers.",
+    source: "DBU sourcebook mapped metadata",
+  },
+  skills: {
+    title: "Skills Help",
+    text: "Use this space for proficiency notes, learned techniques, and situational bonuses your table tracks.",
+    source: "Sheet guide",
+  },
+  inventory: {
+    title: "Inventory Help",
+    text: "Track gear, capsules, and consumables. Keep one item per line for fast in-session reference.",
+    source: "Sheet guide",
+  },
+  notes: {
+    title: "Notes Help",
+    text: "Store roleplay notes, story flags, session goals, and reminders you need between games.",
+    source: "Sheet guide",
+  },
+};
+let activeTabId = "overview";
+let helpPanelVisible = false;
 
 function byId(id) {
   return document.getElementById(id);
@@ -429,6 +468,33 @@ function initializeDataLists() {
   datalist.innerHTML = gameData.races.map((race) => `<option value="${race.name}"></option>`).join("");
 }
 
+function showHelpPanel() {
+  helpPanelVisible = true;
+  byId("help-panel").classList.add("active");
+}
+
+function hideHelpPanel() {
+  helpPanelVisible = false;
+  byId("help-panel").classList.remove("active");
+}
+
+function setHelpContent(payload) {
+  if (!payload) {
+    return;
+  }
+  setText("help-title", payload.title || "Help");
+  setText("help-text", payload.text || "");
+  setText("help-source", payload.source ? `Source: ${payload.source}` : "");
+  if (helpPanelVisible) {
+    byId("help-panel").classList.add("active");
+  }
+}
+
+function updateHelpForActiveTab() {
+  const info = sectionHelp[activeTabId] || sectionHelp.overview;
+  setHelpContent(info);
+}
+
 function setupTabs() {
   const tabButtons = Array.from(document.querySelectorAll(".tab-btn"));
   const panels = Array.from(document.querySelectorAll(".tab-panel"));
@@ -436,8 +502,10 @@ function setupTabs() {
   tabButtons.forEach((button) => {
     button.addEventListener("click", () => {
       const id = button.dataset.tab;
+      activeTabId = id;
       tabButtons.forEach((other) => other.classList.toggle("active", other === button));
       panels.forEach((panel) => panel.classList.toggle("active", panel.id === `tab-${id}`));
+      updateHelpForActiveTab();
     });
   });
 }
@@ -596,6 +664,14 @@ function renderTransformationSection(derived) {
     `<li><strong>Source:</strong> ${derived.form.source || "Custom"}</li>`,
     `<li><strong>Notes:</strong> ${derived.form.notes || "None"}</li>`,
   ].join("");
+
+  if (activeTabId === "transformations") {
+    setHelpContent({
+      title: `${derived.form.name} Details`,
+      text: derived.form.notes || "No notes.",
+      source: derived.form.source || "Custom",
+    });
+  }
 }
 
 function pushRollLog(text) {
@@ -627,6 +703,7 @@ function renderTechniques(derived) {
             <p><strong>Source:</strong> ${technique.source || "Custom"}</p>
           </div>
           <div class="technique-actions">
+            <button class="btn btn-alt technique-info" data-tech="${technique.id}">Info</button>
             <button class="btn btn-alt technique-roll" data-tech="${technique.id}">Roll</button>
             <button class="btn technique-use" data-tech="${technique.id}" ${canUse ? "" : "disabled"}>Use Technique</button>
           </div>
@@ -730,6 +807,16 @@ function setupTechniquesEvents() {
       return;
     }
 
+    if (button.classList.contains("technique-info")) {
+      showHelpPanel();
+      setHelpContent({
+        title: `${technique.name} Info`,
+        text: technique.notes || "No notes.",
+        source: technique.source || "Custom",
+      });
+      return;
+    }
+
     if (button.classList.contains("technique-roll")) {
       const techniqueMath = computeTechniqueMath(technique, derived);
       const d20 = rollDie(20);
@@ -746,6 +833,19 @@ function setupTechniquesEvents() {
 
 function setupQuickActions() {
   byId("apply-form-btn").addEventListener("click", applyTransformation);
+  byId("transformation-select").addEventListener("change", () => {
+    const selectedId = byId("transformation-select").value;
+    const selected = gameData.transformations.find((item) => item.id === selectedId);
+    if (!selected) {
+      return;
+    }
+    showHelpPanel();
+    setHelpContent({
+      title: `${selected.name} Preview`,
+      text: selected.notes || "No notes.",
+      source: selected.source || "Custom",
+    });
+  });
 
   byId("ki-recover-btn").addEventListener("click", () => {
     const state = getState();
@@ -844,6 +944,17 @@ function setupFileActions() {
       window.prompt("Copy this sheet link:", link);
     }
   });
+
+  byId("help-toggle-btn").addEventListener("click", () => {
+    if (helpPanelVisible) {
+      hideHelpPanel();
+    } else {
+      showHelpPanel();
+      updateHelpForActiveTab();
+    }
+  });
+
+  byId("help-close-btn").addEventListener("click", hideHelpPanel);
 }
 
 async function init() {
@@ -866,6 +977,7 @@ async function init() {
 
   subscribe(render);
   loadState();
+  updateHelpForActiveTab();
 
   const formExists = gameData.transformations.some((form) => form.id === getState().activeTransformationId);
   if (!formExists) {

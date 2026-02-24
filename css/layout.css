@@ -87,6 +87,14 @@ body {
   gap: 14px;
 }
 
+.help-panel {
+  display: none;
+}
+
+.help-panel.active {
+  display: block;
+}
+
 .core-panel,
 .tab-panel {
   background: linear-gradient(180deg, rgba(19, 26, 36, 0.94), rgba(15, 22, 32, 0.94));

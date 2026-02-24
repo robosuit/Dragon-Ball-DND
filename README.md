@@ -2,6 +2,12 @@
 
 This project is a plain HTML/CSS/JS character sheet with a D&D Beyond style layout, built for Dragon Ball themed DnD play.
 
+## Player Launch Links
+
+- Live Sheet: `https://robosuit.github.io/Dragon-Ball-DND/`
+- Start Page (best for non-technical players): `https://robosuit.github.io/Dragon-Ball-DND/START_HERE.html`
+- Top-level launcher file in repo: `OPEN_CHARACTER_SHEET.html`
+
 ## Features
 
 - Sidebar + tabbed sheet sections
@@ -55,5 +61,6 @@ When porting to Roll20 sheet workers, reuse formulas from `js/calculations.js`.
 
 ## Quick Access Files
 
-- `OPEN_CHARACTER_SHEET.html` - top-level launcher that redirects to `index.html`
+- `START_HERE.html` - simple player-facing launch page
+- `OPEN_CHARACTER_SHEET.html` - top-level launcher that redirects to `START_HERE.html`
 - `WEBSITE_LINK_TEMPLATE.txt` - template for your final public GitHub Pages URL

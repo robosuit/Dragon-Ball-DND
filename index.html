@@ -39,6 +39,7 @@
         <label class="btn btn-alt" for="import-input">Load from Device</label>
         <input id="import-input" type="file" accept=".json,application/json" hidden>
         <button id="copy-link-btn" class="btn btn-alt">Copy Sheet Link</button>
+        <button id="help-toggle-btn" class="btn btn-alt">Section Help</button>
         <button id="reset-btn" class="btn btn-danger">Reset</button>
       </div>
     </header>
@@ -57,6 +58,15 @@
       </aside>
 
       <main class="main-content">
+        <aside id="help-panel" class="card help-panel" aria-live="polite">
+          <div class="help-head">
+            <h3 id="help-title">Overview Help</h3>
+            <button id="help-close-btn" class="btn btn-alt help-close">Hide</button>
+          </div>
+          <p id="help-text" class="help-text"></p>
+          <p id="help-source" class="muted"></p>
+        </aside>
+
         <section class="core-panel">
           <div class="stat-cards">
             <article class="card stat">
