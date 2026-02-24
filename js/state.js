@@ -5,7 +5,11 @@ function createDefaultState() {
   return {
     meta: {
       name: "New Fighter",
-      race: "Saiyan",
+      primaryRaceId: "human",
+      secondaryRaceId: "",
+      lineagePreset: "full",
+      classId: "martial_artist",
+      professionId: "soldier",
       level: 1,
       alignment: "Neutral",
     },

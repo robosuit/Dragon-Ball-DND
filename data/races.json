@@ -1,134 +1,135 @@
 {
   "races": [
     {
-      "id": "android",
-      "name": "Android",
-      "subraces": [
-        "Artificial Construct",
-        "Cybernetic Organism",
-        "Bio-Engineered"
-      ],
-      "hpModifier": {
-        "default": 4,
-        "bioEngineered": 5
-      },
-      "startingAttributes": {
-        "dex": 2,
-        "wis": 2,
-        "cha": 2,
-        "spi": 2,
-        "str": 2,
-        "con": 5
-      },
-      "source": "DragonBallRedux V2"
-    },
-    {
-      "id": "arcosian",
-      "name": "Arcosian",
-      "subraces": [
-        "Arcosian"
-      ],
-      "hpModifier": {
-        "default": 3
-      },
-      "startingAttributes": {
-        "dex": 2,
-        "wis": 2,
-        "cha": 2,
-        "spi": 5,
-        "str": 2,
-        "con": 4
-      },
-      "source": "DragonBallRedux V2"
-    },
-    {
       "id": "human",
       "name": "Earthling",
-      "subraces": [
-        "Earthling",
-        "Beast-men"
+      "statBonuses": {
+        "str": 1,
+        "dex": 1,
+        "con": 1,
+        "int": 1,
+        "wis": 1,
+        "cha": 1,
+        "spi": 1
+      },
+      "hpBonus": 3,
+      "kiBonus": 2,
+      "speedBonus": 0,
+      "features": [
+        "Adaptable Learner: gain broad flexibility with training paths.",
+        "Tenacious Spirit: recover quickly from combat setbacks.",
+        "Diplomatic Instinct: social checks are easier to justify in narrative."
       ],
-      "hpModifier": {
-        "default": 6
-      },
-      "startingAttributes": {},
-      "source": "DragonBallRedux V2"
-    },
-    {
-      "id": "namekian",
-      "name": "Namekian",
-      "subraces": [
-        "Warrior",
-        "Priest"
-      ],
-      "hpModifier": {
-        "default": 4
-      },
-      "startingAttributes": {
-        "dex": 2,
-        "wis": 5,
-        "cha": 2,
-        "spi": 4,
-        "str": 2,
-        "con": 5
-      },
-      "source": "DragonBallRedux V2"
-    },
-    {
-      "id": "majin",
-      "name": "Majin",
-      "subraces": [
-        "Majin"
-      ],
-      "hpModifier": {
-        "default": 3
-      },
-      "startingAttributes": {
-        "dex": 2,
-        "wis": 2,
-        "cha": 5,
-        "spi": 5,
-        "str": 2,
-        "con": 4
-      },
-      "source": "DragonBallRedux V2"
+      "source": "Dragon Ball DnD Adaptation"
     },
     {
       "id": "saiyan",
       "name": "Saiyan",
-      "subraces": [
-        "Full-Blood",
-        "Half-Blood"
+      "statBonuses": {
+        "str": 2,
+        "dex": 1,
+        "con": 1,
+        "spi": 2
+      },
+      "hpBonus": 4,
+      "kiBonus": 2,
+      "speedBonus": 5,
+      "features": [
+        "Battle Instinct: aggressive combat tempo fits Saiyan kit.",
+        "Zenkai Trigger: recover-and-return arcs scale strongly.",
+        "Tail Legacy: race-specific Great Ape/Oozaru style hooks available."
       ],
-      "hpModifier": {
-        "default": 3
+      "source": "Dragon Ball DnD Adaptation"
+    },
+    {
+      "id": "namekian",
+      "name": "Namekian",
+      "statBonuses": {
+        "con": 2,
+        "wis": 1,
+        "spi": 1
       },
-      "startingAttributes": {
-        "dex": 4,
-        "wis": 2,
+      "hpBonus": 5,
+      "kiBonus": 1,
+      "speedBonus": 0,
+      "features": [
+        "Regenerative Biology: defensive sustain playstyle.",
+        "Spiritual Focus: stable ki control and utility actions.",
+        "Ancient Knowledge: lore and perception oriented play."
+      ],
+      "source": "Dragon Ball DnD Adaptation"
+    },
+    {
+      "id": "majin",
+      "name": "Majin",
+      "statBonuses": {
+        "con": 1,
         "cha": 2,
-        "spi": 2,
-        "str": 5,
-        "con": 5
+        "spi": 1
       },
-      "source": "DragonBallRedux V2"
+      "hpBonus": 4,
+      "kiBonus": 1,
+      "speedBonus": 0,
+      "features": [
+        "Elastic Form: unusual body mechanics in combat narration.",
+        "Arcane Resilience: better resistance to pressure effects.",
+        "Chaos Temperament: high variance outcomes with strong ceiling."
+      ],
+      "source": "Dragon Ball DnD Adaptation"
+    },
+    {
+      "id": "android",
+      "name": "Android",
+      "statBonuses": {
+        "con": 2,
+        "int": 1,
+        "spi": 1
+      },
+      "hpBonus": 4,
+      "kiBonus": 0,
+      "speedBonus": 5,
+      "features": [
+        "Engineered Body: reliable baseline performance.",
+        "System Discipline: lower variance in tactical turns.",
+        "Tech Sync: advantages with gear and devices."
+      ],
+      "source": "Dragon Ball DnD Adaptation"
+    },
+    {
+      "id": "arcosian",
+      "name": "Arcosian",
+      "statBonuses": {
+        "dex": 2,
+        "int": 1,
+        "spi": 1
+      },
+      "hpBonus": 3,
+      "kiBonus": 1,
+      "speedBonus": 5,
+      "features": [
+        "Form Discipline: efficient offensive forms.",
+        "Cold Efficiency: pressure tactics in sustained battles.",
+        "Predatory Presence: intimidation-forward roleplay hooks."
+      ],
+      "source": "Dragon Ball DnD Adaptation"
     },
     {
       "id": "shinjin",
       "name": "Shinjin",
-      "subraces": [
-        "Kaio",
-        "Makaio"
+      "statBonuses": {
+        "wis": 2,
+        "cha": 1,
+        "spi": 2
+      },
+      "hpBonus": 2,
+      "kiBonus": 3,
+      "speedBonus": 0,
+      "features": [
+        "Divine Insight: high awareness and ki precision.",
+        "Celestial Bearing: social leverage in formal settings.",
+        "Ascendant Potential: strong scaling in advanced tiers."
       ],
-      "hpModifier": {
-        "kaio": 5,
-        "makaio": 4
-      },
-      "startingAttributes": {
-        "wis": 5,
-        "spi": 5
-      },
-      "source": "DragonBallRedux V2"
+      "source": "Dragon Ball DnD Adaptation"
     }
   ]
 }

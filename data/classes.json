@@ -1,0 +1,90 @@
+{
+  "classes": [
+    {
+      "id": "martial_artist",
+      "name": "Martial Artist",
+      "statBonuses": {
+        "str": 1,
+        "dex": 1
+      },
+      "hpBonus": 2,
+      "kiBonus": 1,
+      "attackBonus": 1,
+      "features": [
+        "Close Quarters Specialist",
+        "Combo Chain Control",
+        "Reliable Initiative Pressure"
+      ],
+      "source": "Dragon Ball DnD Core"
+    },
+    {
+      "id": "ki_adept",
+      "name": "Ki Adept",
+      "statBonuses": {
+        "spi": 2,
+        "wis": 1
+      },
+      "hpBonus": 0,
+      "kiBonus": 4,
+      "techSaveBonus": 1,
+      "features": [
+        "Advanced Beam Control",
+        "High Ki Efficiency",
+        "Long-Range Technique Focus"
+      ],
+      "source": "Dragon Ball DnD Core"
+    },
+    {
+      "id": "guardian",
+      "name": "Guardian",
+      "statBonuses": {
+        "con": 2,
+        "wis": 1
+      },
+      "hpBonus": 4,
+      "kiBonus": 0,
+      "defenseBonus": 1,
+      "features": [
+        "Frontline Protection",
+        "Threat Soak",
+        "Party Stability Anchor"
+      ],
+      "source": "Dragon Ball DnD Core"
+    },
+    {
+      "id": "tactician",
+      "name": "Tactician",
+      "statBonuses": {
+        "int": 2,
+        "dex": 1
+      },
+      "hpBonus": 1,
+      "kiBonus": 1,
+      "initiativeBonus": 1,
+      "features": [
+        "Tempo Manipulation",
+        "Battlefield Planning",
+        "Utility-Driven Turn Economy"
+      ],
+      "source": "Dragon Ball DnD Core"
+    },
+    {
+      "id": "mystic",
+      "name": "Mystic",
+      "statBonuses": {
+        "spi": 1,
+        "cha": 1,
+        "wis": 1
+      },
+      "hpBonus": 0,
+      "kiBonus": 3,
+      "kiRecoveryBonus": 1,
+      "features": [
+        "Supportive Ki Weaving",
+        "Debuff and Utility Potential",
+        "High Sustained Resource Control"
+      ],
+      "source": "Dragon Ball DnD Core"
+    }
+  ]
+}

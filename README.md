@@ -14,11 +14,15 @@ This project is a plain HTML/CSS/JS character sheet with a D&D Beyond style layo
 - Sidebar + tabbed sheet sections
 - Always-visible combat/resource cards
 - Power level + transformation calculations
+- Hybrid lineage engine (`Full`, `Half Human`, `Quarter Human`, `Half Hybrid`, `Quarter Hybrid`)
+- Race, class, and profession auto-adjustments (stats and passive bonuses)
+- Race-restricted transformation filtering (with hybrid-compatible forms)
 - Ki and HP tracking with quick actions
 - Technique cards with roll and spend Ki buttons
 - Save to Device / Load from Device JSON character files
 - Built-in character slots (`New Slot`, `Save Slot`, `Load Slot`, `Delete Slot`)
-- Data-driven races, transformations, and techniques
+- Assets tab for race/class/profession reference pages
+- Data-driven races, classes, professions, transformations, and techniques
 - DBU/DragonBallRedux baseline data mapped into `data/*.json`
 
 ## File Structure
@@ -28,7 +32,8 @@ This project is a plain HTML/CSS/JS character sheet with a D&D Beyond style layo
 - `js/state.js` - Character state + local storage
 - `js/calculations.js` - Derived stats and dice helpers
 - `js/ui.js` - Rendering and user actions
-- `data/*.json` - Editable game content
+- `data/*.json` - Editable game content (races/classes/professions/transformations/techniques)
+- `ENGINEERING_ROLES.md` - standing project roles used for implementation/review
 
 ## Run Locally
 

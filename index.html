@@ -21,9 +21,30 @@
           <input type="text" data-bind="meta.name">
         </label>
         <label>
-          Race
-          <input type="text" list="race-options" data-bind="meta.race">
-          <datalist id="race-options"></datalist>
+          Primary Race
+          <select id="primary-race-select" data-bind="meta.primaryRaceId"></select>
+        </label>
+        <label>
+          Lineage
+          <select data-bind="meta.lineagePreset">
+            <option value="full">Full Blood</option>
+            <option value="half_human">Half Human Hybrid</option>
+            <option value="quarter_human">Quarter Human Hybrid</option>
+            <option value="half_hybrid">Half Hybrid (Any Two Races)</option>
+            <option value="quarter_hybrid">Quarter Hybrid (75/25)</option>
+          </select>
+        </label>
+        <label id="secondary-race-wrap">
+          Secondary Race
+          <select id="secondary-race-select" data-bind="meta.secondaryRaceId"></select>
+        </label>
+        <label>
+          Class
+          <select id="class-select" data-bind="meta.classId"></select>
+        </label>
+        <label>
+          Profession
+          <select id="profession-select" data-bind="meta.professionId"></select>
         </label>
         <label>
           Level
@@ -59,6 +80,7 @@
           <button class="tab-btn" data-tab="combat">Combat</button>
           <button class="tab-btn" data-tab="techniques">Techniques</button>
           <button class="tab-btn" data-tab="transformations">Transformations</button>
+          <button class="tab-btn" data-tab="assets">Assets</button>
           <button class="tab-btn" data-tab="skills">Skills</button>
           <button class="tab-btn" data-tab="inventory">Inventory</button>
           <button class="tab-btn" data-tab="notes">Notes</button>
@@ -189,6 +211,7 @@
                   <input id="ki-recovery-display" type="text" readonly>
                 </label>
               </div>
+              <ul id="overview-bonus-list" class="detail-list"></ul>
             </article>
           </div>
         </section>
@@ -270,6 +293,34 @@
             <article class="card">
               <h3>Form Details</h3>
               <ul id="form-details" class="detail-list"></ul>
+            </article>
+          </div>
+        </section>
+
+        <section id="tab-assets" class="tab-panel">
+          <h2>Assets</h2>
+          <div class="two-col">
+            <article class="card">
+              <h3 id="asset-race-title">Race Profile</h3>
+              <p id="asset-race-summary" class="muted"></p>
+              <ul id="asset-race-features" class="detail-list"></ul>
+            </article>
+            <article class="card">
+              <h3 id="asset-class-title">Class Profile</h3>
+              <p id="asset-class-summary" class="muted"></p>
+              <ul id="asset-class-features" class="detail-list"></ul>
+            </article>
+          </div>
+          <div class="two-col">
+            <article class="card">
+              <h3 id="asset-profession-title">Profession Profile</h3>
+              <p id="asset-profession-summary" class="muted"></p>
+              <ul id="asset-profession-features" class="detail-list"></ul>
+            </article>
+            <article class="card">
+              <h3>Allowed Transformations</h3>
+              <p id="asset-lineage-summary" class="muted"></p>
+              <ul id="allowed-transforms-list" class="detail-list"></ul>
             </article>
           </div>
         </section>

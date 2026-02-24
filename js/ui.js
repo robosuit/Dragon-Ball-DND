@@ -14,64 +14,15 @@ import {
 } from "./state.js";
 
 const fallbackRaces = {
-  races: [
-    {
-      id: "android",
-      name: "Android",
-      subraces: ["Artificial Construct", "Cybernetic Organism", "Bio-Engineered"],
-      hpModifier: { default: 4, bioEngineered: 5 },
-      startingAttributes: { dex: 2, wis: 2, cha: 2, spi: 2, str: 2, con: 5 },
-      source: "DragonBallRedux V2",
-    },
-    {
-      id: "arcosian",
-      name: "Arcosian",
-      subraces: ["Arcosian"],
-      hpModifier: { default: 3 },
-      startingAttributes: { dex: 2, wis: 2, cha: 2, spi: 5, str: 2, con: 4 },
-      source: "DragonBallRedux V2",
-    },
-    {
-      id: "human",
-      name: "Earthling",
-      subraces: ["Earthling", "Beast-men"],
-      hpModifier: { default: 6 },
-      startingAttributes: {},
-      source: "DragonBallRedux V2",
-    },
-    {
-      id: "namekian",
-      name: "Namekian",
-      subraces: ["Warrior", "Priest"],
-      hpModifier: { default: 4 },
-      startingAttributes: { dex: 2, wis: 5, cha: 2, spi: 4, str: 2, con: 5 },
-      source: "DragonBallRedux V2",
-    },
-    {
-      id: "majin",
-      name: "Majin",
-      subraces: ["Majin"],
-      hpModifier: { default: 3 },
-      startingAttributes: { dex: 2, wis: 2, cha: 5, spi: 5, str: 2, con: 4 },
-      source: "DragonBallRedux V2",
-    },
-    {
-      id: "saiyan",
-      name: "Saiyan",
-      subraces: ["Full-Blood", "Half-Blood"],
-      hpModifier: { default: 3 },
-      startingAttributes: { dex: 4, wis: 2, cha: 2, spi: 2, str: 5, con: 5 },
-      source: "DragonBallRedux V2",
-    },
-    {
-      id: "shinjin",
-      name: "Shinjin",
-      subraces: ["Kaio", "Makaio"],
-      hpModifier: { kaio: 5, makaio: 4 },
-      startingAttributes: { wis: 5, spi: 5 },
-      source: "DragonBallRedux V2",
-    },
-  ],
+  races: [{ id: "human", name: "Earthling", statBonuses: {}, features: [] }],
+};
+
+const fallbackClasses = {
+  classes: [{ id: "martial_artist", name: "Martial Artist", statBonuses: {}, features: [] }],
+};
+
+const fallbackProfessions = {
+  professions: [{ id: "soldier", name: "Soldier", statBonuses: {}, features: [] }],
 };
 
 const fallbackTransformations = {
@@ -86,350 +37,69 @@ const fallbackTransformations = {
       defenseBonus: 0,
       initiativeBonus: 0,
       speedBonus: 0,
-      notes: "No form bonus.",
-    },
-    {
-      id: "kaioken_x2",
-      name: "Kaioken x2",
-      multiplier: 2,
-      kiModifier: 0.9,
-      attackBonus: 1,
-      damageBonus: 2,
-      defenseBonus: -1,
-      initiativeBonus: 1,
-      speedBonus: 10,
-      hpUpkeep: 3,
-      tierRequirement: "Tier 2+",
-      notes: "High output with stamina strain.",
-      source: "DBU Sourcebook",
-    },
-    {
-      id: "kaioken_x3",
-      name: "Kaioken x3",
-      multiplier: 3,
-      kiModifier: 0.8,
-      attackBonus: 2,
-      damageBonus: 3,
-      defenseBonus: -2,
-      initiativeBonus: 2,
-      speedBonus: 15,
-      hpUpkeep: 6,
-      tierRequirement: "Tier 3+",
-      notes: "Severe body stress.",
-      source: "DBU Sourcebook",
-    },
-    {
-      id: "kaioken_x4",
-      name: "Kaioken x4",
-      multiplier: 4,
-      kiModifier: 0.75,
-      attackBonus: 3,
-      damageBonus: 4,
-      defenseBonus: -3,
-      initiativeBonus: 3,
-      speedBonus: 20,
-      hpUpkeep: 10,
-      tierRequirement: "Tier 4+",
-      notes: "Extreme body stress; use sparingly.",
-      source: "DBU Sourcebook",
-    },
-    {
-      id: "saiyan_pride",
-      name: "Saiyan Pride",
-      multiplier: 1,
-      kiModifier: 1.05,
-      attackBonus: 2,
-      damageBonus: 2,
-      defenseBonus: 1,
-      initiativeBonus: 1,
-      speedBonus: 5,
-      abilityBonuses: { str: 1, dex: 1, con: 1, spi: 1 },
-      tierRequirement: "Tier 4+",
-      raceRequirement: "Saiyan",
-      notes: "Racial transformation line focused on pressure and resolve.",
-      source: "DBU Sourcebook",
-    },
-    {
-      id: "earthling_spirit",
-      name: "Earthling Spirit",
-      multiplier: 1,
-      kiModifier: 1.1,
-      attackBonus: 1,
-      damageBonus: 1,
-      defenseBonus: 1,
-      initiativeBonus: 1,
-      speedBonus: 0,
-      abilityBonuses: { str: 1, dex: 1, con: 1, spi: 1 },
-      tierRequirement: "Tier 4+",
-      raceRequirement: "Earthling",
-      notes: "Discipline-based uplift; can stack in advanced stages.",
-      source: "DBU Sourcebook",
-    },
-    {
-      id: "hi_tension",
-      name: "Hi-Tension",
-      multiplier: 1,
-      kiModifier: 1.1,
-      attackBonus: 1,
-      damageBonus: 2,
-      defenseBonus: 0,
-      initiativeBonus: 1,
-      speedBonus: 5,
-      abilityBonuses: { str: 1, con: 1, wis: 1, spi: 1 },
-      tierRequirement: "Tier 4+",
-      notes: "Focused pressure form with offensive spikes.",
-      source: "DBU Sourcebook",
-    },
-    {
-      id: "mushin",
-      name: "Mushin",
-      multiplier: 1,
-      kiModifier: 1.15,
-      attackBonus: 1,
-      damageBonus: 1,
-      defenseBonus: 1,
-      initiativeBonus: 2,
-      speedBonus: 5,
-      abilityBonuses: { dex: 1, wis: 1 },
-      tierRequirement: "Tier 4+",
-      notes: "Calm focus form emphasizing action precision.",
-      source: "DBU Sourcebook",
-    },
-    {
-      id: "ascension",
-      name: "Ascension",
-      multiplier: 1,
-      kiModifier: 1.2,
-      attackBonus: 2,
-      damageBonus: 2,
-      defenseBonus: 1,
-      initiativeBonus: 1,
-      speedBonus: 0,
-      abilityBonuses: { str: 1, int: 1, wis: 1, spi: 1, cha: 1 },
-      tierRequirement: "Tier 4+",
-      notes: "Shinjin progression with broad attribute growth.",
-      source: "DBU Sourcebook",
+      notes: "Fallback base form.",
+      source: "Core",
     },
   ],
 };
 
 const fallbackTechniques = {
-  techniques: [
-    {
-      id: "basic_physical",
-      name: "Basic Physical",
-      kiCost: 2,
-      toHitBonus: 0,
-      damageDice: "1d10",
-      damageFlat: 0,
-      usesAttackMod: true,
-      damageStat: "str",
-      range: "Melee",
-      source: "DragonBallRedux V2 Basic Attacks",
-      notes: "Core strike profile.",
-    },
-    {
-      id: "sphere_energy_attack",
-      name: "Sphere Energy Attack",
-      kiCost: 2,
-      toHitBonus: 0,
-      damageDice: "1d10",
-      damageFlat: 0,
-      usesAttackMod: true,
-      damageStat: "spi",
-      range: "Ranged",
-      source: "DragonBallRedux V2 Basic Attacks",
-      notes: "Focused orb projectile.",
-    },
-    {
-      id: "incantation",
-      name: "Incantation",
-      kiCost: 2,
-      toHitBonus: 0,
-      damageDice: "1d10",
-      damageFlat: 0,
-      usesAttackMod: true,
-      damageStat: "spi",
-      range: "Ranged",
-      source: "DragonBallRedux V2 Basic Attacks",
-      notes: "Channeled cast attack.",
-    },
-    {
-      id: "rapid_fire",
-      name: "Rapid Fire",
-      kiCost: 10,
-      toHitBonus: 0,
-      damageDice: "2d10",
-      damageFlat: 0,
-      usesAttackMod: false,
-      damageStat: "none",
-      range: "Ranged",
-      source: "DragonBallRedux V2 Basic Attacks",
-      notes: "Multiple blasts in quick succession.",
-    },
-    {
-      id: "guided",
-      name: "Guided",
-      kiCost: 7,
-      toHitBonus: 0,
-      damageDice: "1d10",
-      damageFlat: 0,
-      usesAttackMod: true,
-      damageStat: "spi",
-      range: "Ranged (can split hit chance)",
-      source: "DragonBallRedux V2 Basic Attacks",
-      notes: "Can choose full hit check or half-value guided variant.",
-    },
-    {
-      id: "kiai",
-      name: "Kiai",
-      kiCost: 8,
-      toHitBonus: 1,
-      damageDice: "2d10",
-      damageFlat: 0,
-      usesAttackMod: true,
-      damageStat: "spi",
-      range: "Close burst",
-      source: "DragonBallRedux V2 Basic Attacks",
-      notes: "Short-range concussive blast.",
-    },
-    {
-      id: "energy_focus",
-      name: "Energy Focus",
-      kiCost: 9,
-      toHitBonus: 0,
-      damageDice: "1d10",
-      damageFlat: 0,
-      usesAttackMod: true,
-      damageStat: "str+spi",
-      range: "Melee",
-      source: "DragonBallRedux V2 Basic Attacks",
-      notes: "Weapons/limbs wrapped in ki.",
-    },
-    {
-      id: "blast",
-      name: "Blast",
-      kiCost: 6,
-      toHitBonus: 0,
-      damageDice: "1d10",
-      damageFlat: 0,
-      usesAttackMod: true,
-      damageStat: "spi",
-      range: "3x3 ft line",
-      source: "DragonBallRedux V2 Basic Attacks",
-      notes: "Linear area attack.",
-    },
-    {
-      id: "explosion",
-      name: "Explosion",
-      kiCost: 9,
-      toHitBonus: 0,
-      damageDice: "1d10",
-      damageFlat: 0,
-      usesAttackMod: true,
-      damageStat: "spi",
-      range: "3x3 ft burst",
-      source: "DragonBallRedux V2 Basic Attacks",
-      notes: "Localized blast area.",
-    },
-    {
-      id: "beam",
-      name: "Beam",
-      kiCost: 12,
-      toHitBonus: 0,
-      damageDice: "1d10",
-      damageFlat: 0,
-      usesAttackMod: true,
-      damageStat: "spi",
-      range: "Line",
-      source: "DragonBallRedux V2 Basic Attacks",
-      notes: "Sustained directional beam.",
-    },
-    {
-      id: "combination",
-      name: "Combination",
-      kiCost: 10,
-      toHitBonus: 0,
-      damageDice: "2d10",
-      damageFlat: 0,
-      usesAttackMod: false,
-      damageStat: "none",
-      range: "Melee",
-      source: "DragonBallRedux V2 Basic Attacks",
-      notes: "Flurry sequence with fixed output profile.",
-    },
-    {
-      id: "powered",
-      name: "Powered",
-      kiCost: 9,
-      toHitBonus: 0,
-      damageDice: "1d10",
-      damageFlat: 0,
-      usesAttackMod: true,
-      damageStat: "str+spi",
-      range: "Melee",
-      source: "DragonBallRedux V2 Basic Attacks",
-      notes: "Empowered physical attack.",
-    },
-    {
-      id: "solar_flare",
-      name: "Solar Flare",
-      kiCost: 3,
-      toHitBonus: 0,
-      damageDice: "0d0",
-      damageFlat: 0,
-      usesAttackMod: false,
-      range: "30 ft burst",
-      notes: "Targets in range make Con save or are blinded.",
-      source: "DBU common technique",
-    },
-  ],
+  techniques: [],
 };
 
 const gameData = {
   races: fallbackRaces.races,
+  classes: fallbackClasses.classes,
+  professions: fallbackProfessions.professions,
   transformations: fallbackTransformations.transformations,
   techniques: fallbackTechniques.techniques,
 };
 
 const rollLog = [];
+const lineagePresets = ["full", "half_human", "quarter_human", "half_hybrid", "quarter_hybrid"];
 const sectionHelp = {
   overview: {
     title: "Overview Help",
-    text: "Set your identity, base stats, and power progression here. This tab drives all downstream combat calculations.",
-    source: "Sheet guide",
+    text: "Set ancestry, class, and profession. Bonuses apply automatically to stats and combat.",
+    source: "Sheet rules engine",
   },
   combat: {
     title: "Combat Help",
-    text: "Configure your attack stat and combat modifiers, then use quick actions for HP/Ki and initiative during turns.",
-    source: "Sheet guide",
+    text: "Combat fields are base values. Race, class, profession, and active form bonuses are auto-applied.",
+    source: "Sheet rules engine",
   },
   techniques: {
     title: "Techniques Help",
-    text: "Roll or use techniques from this list. Use Technique spends Ki, and rolls use your current form and stat modifiers.",
-    source: "DragonBallRedux V2 / DBU mapped data",
+    text: "Technique cards use your current lineage and active form modifiers.",
+    source: "Dragon Ball DnD techniques",
   },
   transformations: {
     title: "Transformations Help",
-    text: "Pick a form and apply it. The sheet immediately updates power level, combat stats, and form-based modifiers.",
-    source: "DBU sourcebook mapped metadata",
+    text: "Only transformations legal for your ancestry mix are shown.",
+    source: "Race-restricted transformation filter",
+  },
+  assets: {
+    title: "Assets Help",
+    text: "Reference view for race/class/profession traits and allowed forms.",
+    source: "Race/Class/Profession assets",
   },
   skills: {
     title: "Skills Help",
-    text: "Use this space for proficiency notes, learned techniques, and situational bonuses your table tracks.",
-    source: "Sheet guide",
+    text: "Track custom skill notes and table rulings here.",
+    source: "Campaign notes",
   },
   inventory: {
     title: "Inventory Help",
-    text: "Track gear, capsules, and consumables. Keep one item per line for fast in-session reference.",
-    source: "Sheet guide",
+    text: "Track equipment, capsules, and consumables.",
+    source: "Campaign notes",
   },
   notes: {
     title: "Notes Help",
-    text: "Store roleplay notes, story flags, session goals, and reminders you need between games.",
-    source: "Sheet guide",
+    text: "General notes for roleplay and session planning.",
+    source: "Campaign notes",
   },
 };
+
 let activeTabId = "overview";
 let helpPanelVisible = false;
 let activeSlotId = "";
@@ -485,14 +155,175 @@ async function loadJson(path, fallback) {
   }
 }
 
-function initializeDataLists() {
-  const datalist = byId("race-options");
-  datalist.replaceChildren();
-  for (const race of gameData.races) {
-    const option = document.createElement("option");
-    option.value = race.name;
-    datalist.appendChild(option);
+function setText(id, value) {
+  const node = byId(id);
+  if (node) {
+    node.textContent = String(value ?? "");
   }
+}
+
+function signed(value) {
+  return value >= 0 ? `+${value}` : `${value}`;
+}
+
+function setMeter(id, current, max) {
+  const safeMax = Math.max(1, max);
+  const pct = (Math.max(0, current) / safeMax) * 100;
+  const meter = byId(id);
+  if (meter) {
+    meter.style.width = `${Math.max(0, Math.min(100, pct))}%`;
+  }
+}
+
+function setList(id, items) {
+  const target = byId(id);
+  if (!target) {
+    return;
+  }
+  target.replaceChildren();
+  for (const item of items) {
+    const li = document.createElement("li");
+    li.textContent = item;
+    target.appendChild(li);
+  }
+  if (!items.length) {
+    const li = document.createElement("li");
+    li.textContent = "None";
+    target.appendChild(li);
+  }
+}
+
+function populateSelect(selectId, entries) {
+  const select = byId(selectId);
+  if (!select) {
+    return;
+  }
+  const current = select.value;
+  select.replaceChildren();
+  for (const entry of entries) {
+    const option = document.createElement("option");
+    option.value = entry.id;
+    option.textContent = entry.name;
+    select.appendChild(option);
+  }
+  if (entries.some((entry) => entry.id === current)) {
+    select.value = current;
+  }
+}
+
+function findAlternativeRace(primary) {
+  const fallback = gameData.races.find((race) => race.id !== primary);
+  return fallback ? fallback.id : primary;
+}
+
+function ensureSelectionDefaults(state) {
+  const next = clone(state);
+  let changed = false;
+
+  if (!gameData.races.some((race) => race.id === next.meta.primaryRaceId)) {
+    next.meta.primaryRaceId = gameData.races[0]?.id || "human";
+    changed = true;
+  }
+  if (!lineagePresets.includes(next.meta.lineagePreset)) {
+    next.meta.lineagePreset = "full";
+    changed = true;
+  }
+  if (!gameData.classes.some((item) => item.id === next.meta.classId)) {
+    next.meta.classId = gameData.classes[0]?.id || "martial_artist";
+    changed = true;
+  }
+  if (!gameData.professions.some((item) => item.id === next.meta.professionId)) {
+    next.meta.professionId = gameData.professions[0]?.id || "soldier";
+    changed = true;
+  }
+
+  const primary = next.meta.primaryRaceId;
+  if (next.meta.lineagePreset === "full") {
+    if (next.meta.secondaryRaceId) {
+      next.meta.secondaryRaceId = "";
+      changed = true;
+    }
+  } else if (next.meta.lineagePreset === "half_human" || next.meta.lineagePreset === "quarter_human") {
+    if (next.meta.secondaryRaceId !== "human") {
+      next.meta.secondaryRaceId = "human";
+      changed = true;
+    }
+  } else {
+    const isValidSecondary = gameData.races.some((race) => race.id === next.meta.secondaryRaceId);
+    if (!isValidSecondary || next.meta.secondaryRaceId === primary) {
+      next.meta.secondaryRaceId = findAlternativeRace(primary);
+      changed = true;
+    }
+  }
+
+  if (changed) {
+    setState(next);
+    return false;
+  }
+  return true;
+}
+
+function updateSecondaryRaceVisibility(state) {
+  const wrapper = byId("secondary-race-wrap");
+  if (!wrapper) {
+    return;
+  }
+  const preset = state.meta.lineagePreset;
+  const requiresSecondary = preset === "half_hybrid" || preset === "quarter_hybrid";
+  wrapper.classList.toggle("is-hidden", !requiresSecondary);
+}
+
+function initializeDataSelectors() {
+  populateSelect("primary-race-select", gameData.races);
+  populateSelect("secondary-race-select", gameData.races);
+  populateSelect("class-select", gameData.classes);
+  populateSelect("profession-select", gameData.professions);
+}
+
+function setupTabs() {
+  const tabButtons = Array.from(document.querySelectorAll(".tab-btn"));
+  const panels = Array.from(document.querySelectorAll(".tab-panel"));
+
+  tabButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      const id = button.dataset.tab;
+      activeTabId = id;
+      tabButtons.forEach((other) => other.classList.toggle("active", other === button));
+      panels.forEach((panel) => panel.classList.toggle("active", panel.id === `tab-${id}`));
+      updateHelpForActiveTab();
+    });
+  });
+}
+
+function setupBoundInputs() {
+  const elements = Array.from(document.querySelectorAll("[data-bind]"));
+  elements.forEach((element) => {
+    const eventName = element.tagName === "SELECT" ? "change" : "input";
+    element.addEventListener(eventName, () => {
+      const path = element.dataset.bind;
+      const type = element.dataset.type;
+      let value = element.value;
+      if (type === "number") {
+        value = readNumber(value, 0);
+      }
+      setState((previous) => {
+        const next = clone(previous);
+        setPath(next, path, value);
+        return next;
+      });
+    });
+  });
+}
+
+function syncInputsFromState(state) {
+  const elements = Array.from(document.querySelectorAll("[data-bind]"));
+  elements.forEach((element) => {
+    if (document.activeElement === element) {
+      return;
+    }
+    const value = getPath(state, element.dataset.bind);
+    element.value = value == null ? "" : String(value);
+  });
 }
 
 function formatSlotDate(updatedAt) {
@@ -515,7 +346,11 @@ function renderSlotPicker() {
   const slots = listCharacterSlots();
   if (!slots.length) {
     activeSlotId = "";
-    select.innerHTML = `<option value="">No slots</option>`;
+    select.replaceChildren();
+    const option = document.createElement("option");
+    option.value = "";
+    option.textContent = "No slots";
+    select.appendChild(option);
     return;
   }
 
@@ -557,7 +392,7 @@ function setupSlotActions() {
     }
     saveCurrentToSlot(activeSlotId, fallbackName);
     renderSlotPicker();
-    pushRollLog(`Saved current character to slot.`);
+    pushRollLog("Saved current character to slot.");
   });
 
   byId("slot-load-btn").addEventListener("click", () => {
@@ -566,11 +401,7 @@ function setupSlotActions() {
       return;
     }
     const loaded = loadFromSlot(activeSlotId);
-    if (loaded) {
-      pushRollLog("Loaded selected slot.");
-      return;
-    }
-    pushRollLog("Could not load selected slot.");
+    pushRollLog(loaded ? "Loaded selected slot." : "Could not load selected slot.");
   });
 
   byId("slot-delete-btn").addEventListener("click", () => {
@@ -610,87 +441,35 @@ function setHelpContent(payload) {
   setText("help-title", payload.title || "Help");
   setText("help-text", payload.text || "");
   setText("help-source", payload.source ? `Source: ${payload.source}` : "");
-  if (helpPanelVisible) {
-    byId("help-panel").classList.add("active");
-  }
 }
 
 function updateHelpForActiveTab() {
-  const info = sectionHelp[activeTabId] || sectionHelp.overview;
-  setHelpContent(info);
-}
-
-function setupTabs() {
-  const tabButtons = Array.from(document.querySelectorAll(".tab-btn"));
-  const panels = Array.from(document.querySelectorAll(".tab-panel"));
-
-  tabButtons.forEach((button) => {
-    button.addEventListener("click", () => {
-      const id = button.dataset.tab;
-      activeTabId = id;
-      tabButtons.forEach((other) => other.classList.toggle("active", other === button));
-      panels.forEach((panel) => panel.classList.toggle("active", panel.id === `tab-${id}`));
-      updateHelpForActiveTab();
-    });
-  });
-}
-
-function setupBoundInputs() {
-  const elements = Array.from(document.querySelectorAll("[data-bind]"));
-  elements.forEach((element) => {
-    const eventName = element.tagName === "SELECT" ? "change" : "input";
-    element.addEventListener(eventName, () => {
-      const path = element.dataset.bind;
-      const type = element.dataset.type;
-      let value = element.value;
-      if (type === "number") {
-        value = readNumber(value, 0);
-      }
-
-      setState((previous) => {
-        const next = clone(previous);
-        setPath(next, path, value);
-        return next;
-      });
-    });
-  });
-}
-
-function setText(id, value) {
-  const node = byId(id);
-  if (node) {
-    node.textContent = String(value);
-  }
-}
-
-function signed(value) {
-  return value >= 0 ? `+${value}` : `${value}`;
+  setHelpContent(sectionHelp[activeTabId] || sectionHelp.overview);
 }
 
 function normalizeStatKey(raw) {
   const key = String(raw || "").trim().toLowerCase();
   const map = {
-    strength: "str",
     str: "str",
-    agility: "dex",
-    dexterity: "dex",
+    strength: "str",
     dex: "dex",
-    tenacity: "con",
+    dexterity: "dex",
+    agility: "dex",
     con: "con",
     constitution: "con",
-    scholarship: "int",
+    tenacity: "con",
     int: "int",
     intelligence: "int",
-    insight: "wis",
+    scholarship: "int",
     wis: "wis",
     wisdom: "wis",
-    personality: "cha",
+    insight: "wis",
     cha: "cha",
     charisma: "cha",
+    personality: "cha",
+    spi: "spi",
     spirit: "spi",
     potency: "spi",
-    magic: "spi",
-    spi: "spi",
     none: "none",
   };
   return map[key] || key;
@@ -704,14 +483,12 @@ function getModForStatSpec(derived, statSpec) {
     .split("+")
     .map((part) => normalizeStatKey(part))
     .filter(Boolean);
-  let total = 0;
-  for (const key of parts) {
+  return parts.reduce((sum, key) => {
     if (key === "none") {
-      continue;
+      return sum;
     }
-    total += readNumber(derived.mods[key], 0);
-  }
-  return total;
+    return sum + readNumber(derived.mods[key], 0);
+  }, 0);
 }
 
 function computeTechniqueMath(technique, derived) {
@@ -727,91 +504,121 @@ function computeTechniqueMath(technique, derived) {
   } else if (technique.usesAttackMod) {
     damageMod += derived.damageBonus;
   }
-
   return { baseHit, damageMod };
 }
 
-function setMeter(id, current, max) {
-  const safeMax = Math.max(1, max);
-  const pct = (Math.max(0, current) / safeMax) * 100;
-  const meter = byId(id);
-  if (meter) {
-    meter.style.width = `${Math.max(0, Math.min(100, pct))}%`;
+function formatFormRequirements(form) {
+  const chunks = [];
+  const required = form.requiredRaceShares || {};
+  const requiredEntries = Object.entries(required);
+  if (requiredEntries.length) {
+    chunks.push(
+      `Requires ${requiredEntries
+        .map(([raceId, share]) => `${raceId} ${Math.round(readNumber(share) * 100)}%`)
+        .join(" + ")}`,
+    );
   }
+  if (Array.isArray(form.allowedRaceIds) && form.allowedRaceIds.length) {
+    const min = Math.round(readNumber(form.minRaceShare, 1) * 100);
+    chunks.push(`Allowed races: ${form.allowedRaceIds.join(", ")} (${min}%+)`);
+  }
+  return chunks.join(" | ") || "Universal";
 }
 
-function syncInputsFromState(state) {
-  const elements = Array.from(document.querySelectorAll("[data-bind]"));
-  elements.forEach((element) => {
-    if (document.activeElement === element) {
-      return;
-    }
-    const value = getPath(state, element.dataset.bind);
-    if (value === undefined || value === null) {
-      element.value = "";
-      return;
-    }
-    element.value = String(value);
-  });
-}
-
-function renderTransformationSection(derived) {
+function renderTransformationSection(state, derived) {
   const select = byId("transformation-select");
-  if (!select) {
-    return;
+  const forms = derived.allowedTransformations || [];
+  if (!select || !forms.length) {
+    return true;
   }
 
-  if (select.options.length !== gameData.transformations.length) {
+  const validIds = forms.map((form) => form.id);
+  if (!validIds.includes(state.activeTransformationId)) {
+    setState((previous) => {
+      const next = clone(previous);
+      next.activeTransformationId = forms[0].id;
+      return next;
+    });
+    return false;
+  }
+
+  if (select.options.length !== forms.length) {
     select.replaceChildren();
-    for (const form of gameData.transformations) {
+    for (const form of forms) {
       const option = document.createElement("option");
       option.value = form.id;
       option.textContent = form.name;
       select.appendChild(option);
     }
   }
-  select.value = derived.form.id;
+  select.value = state.activeTransformationId;
 
   const abilityBonuses = Object.entries(derived.form.abilityBonuses || {})
     .filter(([, value]) => readNumber(value) !== 0)
     .map(([stat, value]) => `${stat.toUpperCase()} ${signed(readNumber(value))}`)
     .join(", ");
 
-  byId("form-details").innerHTML = [
-    `<li><strong>Power Multiplier:</strong> x${escapeHtml(derived.form.multiplier)}</li>`,
-    `<li><strong>Ki Modifier:</strong> x${escapeHtml(derived.form.kiModifier)}</li>`,
-    `<li><strong>Attack Bonus:</strong> ${escapeHtml(signed(readNumber(derived.form.attackBonus)))}</li>`,
-    `<li><strong>Damage Bonus:</strong> ${escapeHtml(signed(readNumber(derived.form.damageBonus)))}</li>`,
-    `<li><strong>Defense Bonus:</strong> ${escapeHtml(signed(readNumber(derived.form.defenseBonus)))}</li>`,
-    `<li><strong>Speed Bonus:</strong> ${escapeHtml(signed(readNumber(derived.form.speedBonus)))}</li>`,
-    `<li><strong>Ability Bonuses:</strong> ${escapeHtml(abilityBonuses || "None")}</li>`,
-    `<li><strong>Tier Requirement:</strong> ${escapeHtml(derived.form.tierRequirement || "None")}</li>`,
-    `<li><strong>Race Requirement:</strong> ${escapeHtml(derived.form.raceRequirement || "None")}</li>`,
-    `<li><strong>Ki Upkeep:</strong> ${readNumber(derived.form.kiUpkeep, 0)}</li>`,
-    `<li><strong>HP Upkeep:</strong> ${readNumber(derived.form.hpUpkeep, 0)}</li>`,
-    `<li><strong>Source:</strong> ${escapeHtml(derived.form.source || "Custom")}</li>`,
-    `<li><strong>Notes:</strong> ${escapeHtml(derived.form.notes || "None")}</li>`,
-  ].join("");
-
-  if (activeTabId === "transformations") {
-    setHelpContent({
-      title: `${derived.form.name} Details`,
-      text: derived.form.notes || "No notes.",
-      source: derived.form.source || "Custom",
-    });
-  }
+  setList("form-details", [
+    `Power Multiplier: x${derived.form.multiplier}`,
+    `Ki Modifier: x${derived.form.kiModifier}`,
+    `Attack Bonus: ${signed(readNumber(derived.form.attackBonus))}`,
+    `Damage Bonus: ${signed(readNumber(derived.form.damageBonus))}`,
+    `Defense Bonus: ${signed(readNumber(derived.form.defenseBonus))}`,
+    `Speed Bonus: ${signed(readNumber(derived.form.speedBonus))}`,
+    `Ability Bonuses: ${abilityBonuses || "None"}`,
+    `Requirements: ${formatFormRequirements(derived.form)}`,
+    `Source: ${derived.form.source || "Custom"}`,
+    `Notes: ${derived.form.notes || "None"}`,
+  ]);
+  return true;
 }
 
-function pushRollLog(text) {
-  const stamp = new Date().toLocaleTimeString("en-US", { hour12: false });
-  rollLog.unshift(`${stamp} - ${text}`);
-  if (rollLog.length > 12) {
-    rollLog.pop();
-  }
+function renderOverviewBonuses(derived) {
+  const raceStats = Object.entries(derived.raceComposite.statBonuses)
+    .filter(([, value]) => Math.abs(readNumber(value)) > 0)
+    .map(([stat, value]) => `${stat.toUpperCase()} ${signed(readNumber(value).toFixed(2))}`)
+    .join(", ");
+  const classStats = Object.entries(derived.selectedClass.statBonuses || {})
+    .filter(([, value]) => Math.abs(readNumber(value)) > 0)
+    .map(([stat, value]) => `${stat.toUpperCase()} ${signed(readNumber(value))}`)
+    .join(", ");
+  const professionStats = Object.entries(derived.selectedProfession.statBonuses || {})
+    .filter(([, value]) => Math.abs(readNumber(value)) > 0)
+    .map(([stat, value]) => `${stat.toUpperCase()} ${signed(readNumber(value))}`)
+    .join(", ");
 
-  byId("roll-log").innerHTML = rollLog
-    .map((entry) => `<div class="roll-entry">${escapeHtml(entry)}</div>`)
-    .join("");
+  setList("overview-bonus-list", [
+    `Lineage: ${derived.lineageLabel} (${derived.raceComposite.summary})`,
+    `Race Stat Bonuses: ${raceStats || "None"}`,
+    `Class Stat Bonuses: ${classStats || "None"}`,
+    `Profession Stat Bonuses: ${professionStats || "None"}`,
+    `Passive HP/Ki Bonuses: HP ${signed(derived.passiveBonuses.hpBonus)}, Ki ${signed(derived.passiveBonuses.kiBonus)}`,
+  ]);
+}
+
+function renderAssetsSection(derived) {
+  const raceTitle = derived.raceComposite.dominantRace
+    ? `Race Profile - ${derived.raceComposite.dominantRace.name}`
+    : "Race Profile";
+  setText("asset-race-title", raceTitle);
+  setText("asset-race-summary", `${derived.lineageLabel}: ${derived.raceComposite.summary}`);
+  setList("asset-race-features", derived.raceComposite.features || []);
+
+  setText("asset-class-title", `Class Profile - ${derived.selectedClass.name || "None"}`);
+  setText("asset-class-summary", derived.selectedClass.source || "No source");
+  setList("asset-class-features", derived.selectedClass.features || []);
+
+  setText("asset-profession-title", `Profession Profile - ${derived.selectedProfession.name || "None"}`);
+  setText("asset-profession-summary", derived.selectedProfession.source || "No source");
+  setList("asset-profession-features", derived.selectedProfession.features || []);
+
+  setText("asset-lineage-summary", `Current lineage: ${derived.lineageLabel}`);
+  setList(
+    "allowed-transforms-list",
+    (derived.allowedTransformations || []).map(
+      (form) => `${form.name} - ${formatFormRequirements(form)}`,
+    ),
+  );
 }
 
 function renderTechniques(derived) {
@@ -843,17 +650,15 @@ function renderTechniques(derived) {
     .join("");
 }
 
-function applyTransformation() {
-  const select = byId("transformation-select");
-  if (!select) {
-    return;
+function pushRollLog(text) {
+  const stamp = new Date().toLocaleTimeString("en-US", { hour12: false });
+  rollLog.unshift(`${stamp} - ${text}`);
+  if (rollLog.length > 14) {
+    rollLog.pop();
   }
-  const selectedId = select.value;
-  setState((previous) => {
-    const next = clone(previous);
-    next.activeTransformationId = selectedId;
-    return next;
-  });
+  byId("roll-log").innerHTML = rollLog
+    .map((entry) => `<div class="roll-entry">${escapeHtml(entry)}</div>`)
+    .join("");
 }
 
 function clampResourcesIfNeeded(derived, state) {
@@ -870,11 +675,19 @@ function clampResourcesIfNeeded(derived, state) {
 
 function render() {
   const state = getState();
-  const derived = computeDerived(state, gameData.transformations);
+  if (!ensureSelectionDefaults(state)) {
+    return;
+  }
 
+  updateSecondaryRaceVisibility(state);
   syncInputsFromState(state);
-  clampResourcesIfNeeded(derived, state);
   renderSlotPicker();
+
+  const derived = computeDerived(state, gameData);
+  clampResourcesIfNeeded(derived, state);
+  if (!renderTransformationSection(state, derived)) {
+    return;
+  }
 
   setText("power-level-card", derived.transformedPowerLevelLabel);
   setText("active-form-card", derived.form.name);
@@ -902,8 +715,9 @@ function render() {
   byId("prof-bonus-display").value = signed(derived.proficiencyBonus);
   byId("ki-recovery-display").value = derived.kiRecovery;
 
-  renderTransformationSection(derived);
+  renderOverviewBonuses(derived);
   renderTechniques(derived);
+  renderAssetsSection(derived);
 }
 
 function setupTechniquesEvents() {
@@ -919,9 +733,8 @@ function setupTechniquesEvents() {
     if (!technique) {
       return;
     }
-
     const state = getState();
-    const derived = computeDerived(state, gameData.transformations);
+    const derived = computeDerived(state, gameData);
     const kiCost = readNumber(technique.kiCost);
 
     if (button.classList.contains("technique-use")) {
@@ -954,7 +767,6 @@ function setupTechniquesEvents() {
       const hitTotal = d20 + techniqueMath.baseHit;
       const damageRoll = rollDiceExpression(technique.damageDice);
       const damageTotal = damageRoll.total + techniqueMath.damageMod;
-
       pushRollLog(
         `${technique.name}: hit ${d20}${signed(hitTotal - d20)}=${hitTotal}, damage ${damageRoll.expression} (${damageRoll.rolls.join(",")}) ${signed(techniqueMath.damageMod)}=${damageTotal}`,
       );
@@ -963,7 +775,15 @@ function setupTechniquesEvents() {
 }
 
 function setupQuickActions() {
-  byId("apply-form-btn").addEventListener("click", applyTransformation);
+  byId("apply-form-btn").addEventListener("click", () => {
+    const selectedId = byId("transformation-select").value;
+    setState((previous) => {
+      const next = clone(previous);
+      next.activeTransformationId = selectedId;
+      return next;
+    });
+  });
+
   byId("transformation-select").addEventListener("change", () => {
     const selectedId = byId("transformation-select").value;
     const selected = gameData.transformations.find((item) => item.id === selectedId);
@@ -979,8 +799,7 @@ function setupQuickActions() {
   });
 
   byId("ki-recover-btn").addEventListener("click", () => {
-    const state = getState();
-    const derived = computeDerived(state, gameData.transformations);
+    const derived = computeDerived(getState(), gameData);
     setState((previous) => {
       const next = clone(previous);
       next.resources.currentKi = Math.min(derived.maxKi, readNumber(next.resources.currentKi) + derived.kiRecovery);
@@ -999,8 +818,7 @@ function setupQuickActions() {
   });
 
   byId("hp-heal-btn").addEventListener("click", () => {
-    const state = getState();
-    const derived = computeDerived(state, gameData.transformations);
+    const derived = computeDerived(getState(), gameData);
     setState((previous) => {
       const next = clone(previous);
       next.resources.currentHp = Math.min(derived.maxHp, readNumber(next.resources.currentHp) + 10);
@@ -1019,8 +837,7 @@ function setupQuickActions() {
   });
 
   byId("roll-initiative-btn").addEventListener("click", () => {
-    const state = getState();
-    const derived = computeDerived(state, gameData.transformations);
+    const derived = computeDerived(getState(), gameData);
     const roll = rollDie(20);
     const total = roll + derived.initiative;
     pushRollLog(`Initiative: ${roll}${signed(derived.initiative)}=${total}`);
@@ -1033,7 +850,6 @@ function setupFileActions() {
     const blob = new Blob([data], { type: "application/json" });
     const url = URL.createObjectURL(blob);
     const name = (getState().meta.name || "character").trim().replace(/\s+/g, "_");
-
     const a = document.createElement("a");
     a.href = url;
     a.download = `${name || "character"}.json`;
@@ -1048,17 +864,16 @@ function setupFileActions() {
     }
     try {
       const text = await file.text();
-      const parsed = JSON.parse(text);
-      setState(parsed);
+      setState(JSON.parse(text));
       pushRollLog(`Imported ${file.name}.`);
     } catch {
-      pushRollLog("Import failed: invalid JSON file.");
+      pushRollLog("Import failed: invalid JSON.");
     }
     event.target.value = "";
   });
 
   byId("reset-btn").addEventListener("click", () => {
-    const confirmed = window.confirm("Reset this sheet to default values?");
+    const confirmed = window.confirm("Reset this sheet to defaults?");
     if (!confirmed) {
       return;
     }
@@ -1079,37 +894,41 @@ function setupFileActions() {
   byId("help-toggle-btn").addEventListener("click", () => {
     if (helpPanelVisible) {
       hideHelpPanel();
-    } else {
-      showHelpPanel();
-      updateHelpForActiveTab();
+      return;
     }
+    showHelpPanel();
+    updateHelpForActiveTab();
   });
 
   byId("help-close-btn").addEventListener("click", hideHelpPanel);
 }
 
 async function init() {
-  const [racesData, transformationsData, techniquesData] = await Promise.all([
+  const [racesData, classesData, professionsData, transformationsData, techniquesData] = await Promise.all([
     loadJson("./data/races.json", fallbackRaces),
+    loadJson("./data/classes.json", fallbackClasses),
+    loadJson("./data/professions.json", fallbackProfessions),
     loadJson("./data/transformations.json", fallbackTransformations),
     loadJson("./data/techniques.json", fallbackTechniques),
   ]);
 
   gameData.races = racesData.races || fallbackRaces.races;
+  gameData.classes = classesData.classes || fallbackClasses.classes;
+  gameData.professions = professionsData.professions || fallbackProfessions.professions;
   gameData.transformations = transformationsData.transformations || fallbackTransformations.transformations;
   gameData.techniques = techniquesData.techniques || fallbackTechniques.techniques;
 
+  initializeDataSelectors();
   setupTabs();
   setupBoundInputs();
   setupSlotActions();
   setupTechniquesEvents();
   setupQuickActions();
   setupFileActions();
-  initializeDataLists();
 
   subscribe(render);
   loadState();
-  updateHelpForActiveTab();
+
   const slots = listCharacterSlots();
   if (!slots.length) {
     activeSlotId = createCharacterSlot(getState().meta?.name || "Starter Character");
@@ -1117,15 +936,7 @@ async function init() {
     activeSlotId = slots[0].id;
   }
 
-  const formExists = gameData.transformations.some((form) => form.id === getState().activeTransformationId);
-  if (!formExists) {
-    setState((previous) => {
-      const next = clone(previous);
-      next.activeTransformationId = gameData.transformations[0]?.id || "base";
-      return next;
-    });
-  }
-
+  updateHelpForActiveTab();
   render();
 }
 

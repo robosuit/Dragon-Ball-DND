@@ -1,0 +1,95 @@
+{
+  "professions": [
+    {
+      "id": "soldier",
+      "name": "Soldier",
+      "statBonuses": {
+        "con": 1
+      },
+      "hpBonus": 2,
+      "attackBonus": 1,
+      "features": [
+        "Combat Drills",
+        "Weapon Familiarity",
+        "Field Discipline"
+      ],
+      "source": "Campaign Profession Pack"
+    },
+    {
+      "id": "scholar",
+      "name": "Scholar",
+      "statBonuses": {
+        "int": 1,
+        "wis": 1
+      },
+      "kiBonus": 1,
+      "features": [
+        "Knowledge Recall",
+        "Lore Research Access",
+        "Technical Problem Solving"
+      ],
+      "source": "Campaign Profession Pack"
+    },
+    {
+      "id": "engineer",
+      "name": "Engineer",
+      "statBonuses": {
+        "int": 1,
+        "dex": 1
+      },
+      "defenseBonus": 1,
+      "features": [
+        "Device Handling",
+        "Repair and Retrofit",
+        "Tactical Utility Builds"
+      ],
+      "source": "Campaign Profession Pack"
+    },
+    {
+      "id": "mercenary",
+      "name": "Mercenary",
+      "statBonuses": {
+        "str": 1,
+        "cha": 1
+      },
+      "hpBonus": 1,
+      "damageBonus": 1,
+      "features": [
+        "Contract Fighting Style",
+        "Negotiation Under Pressure",
+        "Aggressive Finishing Pressure"
+      ],
+      "source": "Campaign Profession Pack"
+    },
+    {
+      "id": "healer",
+      "name": "Healer",
+      "statBonuses": {
+        "wis": 1,
+        "spi": 1
+      },
+      "kiRecoveryBonus": 1,
+      "features": [
+        "Recovery Support",
+        "Stabilization Expertise",
+        "Sustain-Focused Team Play"
+      ],
+      "source": "Campaign Profession Pack"
+    },
+    {
+      "id": "spacefarer",
+      "name": "Spacefarer",
+      "statBonuses": {
+        "dex": 1,
+        "wis": 1
+      },
+      "speedBonus": 5,
+      "features": [
+        "Navigation and Piloting",
+        "Survival in Extreme Environments",
+        "Flexible Utility in Travel Arcs"
+      ],
+      "source": "Campaign Profession Pack"
+    }
+  ]
+}

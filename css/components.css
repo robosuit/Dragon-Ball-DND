@@ -178,6 +178,10 @@ h3 {
   min-width: 170px;
 }
 
+.is-hidden {
+  display: none;
+}
+
 .tab-btn {
   border: 1px solid var(--line-soft);
   background: linear-gradient(180deg, #1b2533, #15202f);

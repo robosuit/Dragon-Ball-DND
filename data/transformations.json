@@ -10,8 +10,10 @@
       "defenseBonus": 0,
       "initiativeBonus": 0,
       "speedBonus": 0,
-      "notes": "No form bonus.",
-      "source": "Core"
+      "notes": "Default state with no extra modifiers.",
+      "source": "Core",
+      "allowedRaceIds": [],
+      "minRaceShare": 0
     },
     {
       "id": "kaioken_x2",
@@ -24,9 +26,10 @@
       "initiativeBonus": 1,
       "speedBonus": 10,
       "hpUpkeep": 3,
-      "tierRequirement": "Tier 2+",
-      "notes": "High output with stamina strain.",
-      "source": "DBU Sourcebook - Kaioken"
+      "notes": "Universal strain form with high output.",
+      "source": "DBU Sourcebook - Kaioken",
+      "allowedRaceIds": [],
+      "minRaceShare": 0
     },
     {
       "id": "kaioken_x3",
@@ -39,9 +42,10 @@
       "initiativeBonus": 2,
       "speedBonus": 15,
       "hpUpkeep": 6,
-      "tierRequirement": "Tier 3+",
-      "notes": "Severe body stress.",
-      "source": "DBU Sourcebook - Kaioken"
+      "notes": "Higher strain and burst potential.",
+      "source": "DBU Sourcebook - Kaioken",
+      "allowedRaceIds": [],
+      "minRaceShare": 0
     },
     {
       "id": "kaioken_x4",
@@ -54,60 +58,16 @@
       "initiativeBonus": 3,
       "speedBonus": 20,
       "hpUpkeep": 10,
-      "tierRequirement": "Tier 4+",
-      "notes": "Extreme body stress; use sparingly.",
-      "source": "DBU Sourcebook - Kaioken"
-    },
-    {
-      "id": "all_out_kaioken_x10",
-      "name": "All-Out Kaioken x10",
-      "multiplier": 10,
-      "kiModifier": 0.6,
-      "attackBonus": 5,
-      "damageBonus": 6,
-      "defenseBonus": -4,
-      "initiativeBonus": 4,
-      "speedBonus": 25,
-      "hpUpkeep": 20,
-      "tierRequirement": "Mastered Grade 4+",
-      "notes": "Short duration burst form.",
-      "source": "DBU Sourcebook - All-Out Kaioken"
-    },
-    {
-      "id": "all_out_kaioken_x20",
-      "name": "All-Out Kaioken x20",
-      "multiplier": 20,
-      "kiModifier": 0.5,
-      "attackBonus": 6,
-      "damageBonus": 8,
-      "defenseBonus": -5,
-      "initiativeBonus": 5,
-      "speedBonus": 30,
-      "hpUpkeep": 35,
-      "tierRequirement": "Mastered Grade 5+",
-      "notes": "High-risk burst; severe recoil.",
-      "source": "DBU Sourcebook - All-Out Kaioken"
-    },
-    {
-      "id": "all_out_kaioken_x100",
-      "name": "All-Out Kaioken x100",
-      "multiplier": 100,
-      "kiModifier": 0.3,
-      "attackBonus": 10,
-      "damageBonus": 14,
-      "defenseBonus": -8,
-      "initiativeBonus": 8,
-      "speedBonus": 45,
-      "hpUpkeep": 100,
-      "tierRequirement": "Mastered Grade 6+",
-      "notes": "Catastrophic overdrive form.",
-      "source": "DBU Sourcebook - All-Out Kaioken"
+      "notes": "Extreme output with severe recoil.",
+      "source": "DBU Sourcebook - Kaioken",
+      "allowedRaceIds": [],
+      "minRaceShare": 0
     },
     {
       "id": "saiyan_pride",
       "name": "Saiyan Pride",
-      "multiplier": 1,
-      "kiModifier": 1.05,
+      "multiplier": 1.25,
+      "kiModifier": 1.1,
       "attackBonus": 2,
       "damageBonus": 2,
       "defenseBonus": 1,
@@ -119,90 +79,191 @@
         "con": 1,
         "spi": 1
       },
-      "tierRequirement": "Tier 4+",
-      "raceRequirement": "Saiyan",
-      "notes": "Racial transformation line focused on pressure and resolve.",
-      "source": "DBU Sourcebook - Saiyan Pride"
+      "notes": "Race-locked Saiyan pressure form.",
+      "source": "DBU Sourcebook - Saiyan",
+      "allowedRaceIds": [
+        "saiyan"
+      ],
+      "minRaceShare": 1
+    },
+    {
+      "id": "super_saiyan",
+      "name": "Super Saiyan",
+      "multiplier": 3,
+      "kiModifier": 1.2,
+      "attackBonus": 3,
+      "damageBonus": 4,
+      "defenseBonus": 1,
+      "initiativeBonus": 2,
+      "speedBonus": 10,
+      "abilityBonuses": {
+        "str": 2,
+        "dex": 1,
+        "spi": 2
+      },
+      "notes": "Full-blood Saiyan ascension.",
+      "source": "DBU Sourcebook - Saiyan",
+      "allowedRaceIds": [
+        "saiyan"
+      ],
+      "minRaceShare": 1
+    },
+    {
+      "id": "super_saiyan_2",
+      "name": "Super Saiyan 2",
+      "multiplier": 5,
+      "kiModifier": 1.25,
+      "attackBonus": 4,
+      "damageBonus": 6,
+      "defenseBonus": 2,
+      "initiativeBonus": 3,
+      "speedBonus": 12,
+      "abilityBonuses": {
+        "str": 3,
+        "dex": 2,
+        "spi": 3
+      },
+      "notes": "Enhanced Saiyan ascension tier.",
+      "source": "DBU Sourcebook - Saiyan",
+      "allowedRaceIds": [
+        "saiyan"
+      ],
+      "minRaceShare": 1
+    },
+    {
+      "id": "super_saiyan_3",
+      "name": "Super Saiyan 3",
+      "multiplier": 7,
+      "kiModifier": 1.3,
+      "attackBonus": 5,
+      "damageBonus": 8,
+      "defenseBonus": 2,
+      "initiativeBonus": 4,
+      "speedBonus": 15,
+      "abilityBonuses": {
+        "str": 4,
+        "dex": 2,
+        "spi": 4
+      },
+      "notes": "Peak unstable Saiyan scaling.",
+      "source": "DBU Sourcebook - Saiyan",
+      "allowedRaceIds": [
+        "saiyan"
+      ],
+      "minRaceShare": 1
     },
     {
       "id": "earthling_spirit",
       "name": "Earthling Spirit",
-      "multiplier": 1,
+      "multiplier": 1.4,
+      "kiModifier": 1.15,
+      "attackBonus": 2,
+      "damageBonus": 2,
+      "defenseBonus": 2,
+      "initiativeBonus": 1,
+      "speedBonus": 5,
+      "abilityBonuses": {
+        "str": 1,
+        "dex": 1,
+        "con": 1,
+        "spi": 2
+      },
+      "notes": "Earthling discipline-based growth.",
+      "source": "DBU Sourcebook - Earthling",
+      "allowedRaceIds": [
+        "human"
+      ],
+      "minRaceShare": 1
+    },
+    {
+      "id": "giant_namekian",
+      "name": "Giant Namekian",
+      "multiplier": 2.6,
       "kiModifier": 1.1,
-      "attackBonus": 1,
-      "damageBonus": 1,
-      "defenseBonus": 1,
+      "attackBonus": 2,
+      "damageBonus": 4,
+      "defenseBonus": 3,
+      "initiativeBonus": -1,
+      "speedBonus": -5,
+      "abilityBonuses": {
+        "str": 3,
+        "con": 2
+      },
+      "notes": "Namekian growth form for control and pressure.",
+      "source": "DBU Sourcebook - Namekian",
+      "allowedRaceIds": [
+        "namekian"
+      ],
+      "minRaceShare": 1
+    },
+    {
+      "id": "majin_unbound",
+      "name": "Majin Unbound",
+      "multiplier": 2.4,
+      "kiModifier": 1.1,
+      "attackBonus": 2,
+      "damageBonus": 3,
+      "defenseBonus": 2,
       "initiativeBonus": 1,
       "speedBonus": 0,
       "abilityBonuses": {
-        "str": 1,
-        "dex": 1,
-        "con": 1,
+        "con": 2,
+        "cha": 2,
         "spi": 1
       },
-      "tierRequirement": "Tier 4+",
-      "raceRequirement": "Earthling",
-      "notes": "Discipline-based uplift; can stack in advanced stages.",
-      "source": "DBU Sourcebook - Earthling Spirit"
-    },
-    {
-      "id": "hi_tension",
-      "name": "Hi-Tension",
-      "multiplier": 1,
-      "kiModifier": 1.1,
-      "attackBonus": 1,
-      "damageBonus": 2,
-      "defenseBonus": 0,
-      "initiativeBonus": 1,
-      "speedBonus": 5,
-      "abilityBonuses": {
-        "str": 1,
-        "con": 1,
-        "wis": 1,
-        "spi": 1
-      },
-      "tierRequirement": "Tier 4+",
-      "notes": "Focused pressure form with offensive spikes.",
-      "source": "DBU Sourcebook - Hi-Tension"
-    },
-    {
-      "id": "mushin",
-      "name": "Mushin",
-      "multiplier": 1,
-      "kiModifier": 1.15,
-      "attackBonus": 1,
-      "damageBonus": 1,
-      "defenseBonus": 1,
-      "initiativeBonus": 2,
-      "speedBonus": 5,
-      "abilityBonuses": {
-        "dex": 1,
-        "wis": 1
-      },
-      "tierRequirement": "Tier 4+",
-      "notes": "Calm focus form emphasizing action precision.",
-      "source": "DBU Sourcebook - Mushin"
+      "notes": "Majin power release and regenerative offense.",
+      "source": "DBU Sourcebook - Majin",
+      "allowedRaceIds": [
+        "majin"
+      ],
+      "minRaceShare": 1
     },
     {
       "id": "ascension",
       "name": "Ascension",
-      "multiplier": 1,
-      "kiModifier": 1.2,
+      "multiplier": 2,
+      "kiModifier": 1.25,
       "attackBonus": 2,
       "damageBonus": 2,
       "defenseBonus": 1,
       "initiativeBonus": 1,
       "speedBonus": 0,
       "abilityBonuses": {
-        "str": 1,
         "int": 1,
         "wis": 1,
-        "spi": 1,
-        "cha": 1
+        "cha": 1,
+        "spi": 2
       },
-      "tierRequirement": "Tier 4+",
-      "notes": "Shinjin progression with broad attribute growth.",
-      "source": "DBU Sourcebook - Ascension"
+      "notes": "Shinjin divine uplift form.",
+      "source": "DBU Sourcebook - Shinjin",
+      "allowedRaceIds": [
+        "shinjin"
+      ],
+      "minRaceShare": 1
+    },
+    {
+      "id": "oozaru_namekian",
+      "name": "Oozaru Namekian",
+      "multiplier": 3.5,
+      "kiModifier": 1.05,
+      "attackBonus": 3,
+      "damageBonus": 5,
+      "defenseBonus": 2,
+      "initiativeBonus": 0,
+      "speedBonus": 5,
+      "abilityBonuses": {
+        "str": 3,
+        "con": 2,
+        "spi": 1
+      },
+      "notes": "Experimental hybrid form for Saiyan-Namekian builds.",
+      "source": "Homebrew Hybrid Pack",
+      "requiredRaceShares": {
+        "saiyan": 0.5,
+        "namekian": 0.5
+      },
+      "allowedRaceIds": [],
+      "minRaceShare": 0
     }
   ]
 }
